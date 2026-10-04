@@ -1,0 +1,4279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Handy | Client Dashboard</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        /* =========================================================
+           HANDY CLIENT DASHBOARD
+           Dashboard-specific styles
+        ========================================================= */
+
+        :root {
+            --hd-green-950: #10251d;
+            --hd-green-900: #17382b;
+            --hd-green-850: #1c4434;
+            --hd-green-800: #22503d;
+            --hd-green-700: #2e624c;
+            --hd-green-500: #6f8d7d;
+            --hd-green-300: #aabdb1;
+
+            --hd-cream: #f4f1e9;
+            --hd-cream-light: #faf9f5;
+            --hd-cream-dark: #e9e5da;
+
+            --hd-text: #17231e;
+            --hd-text-soft: #66716b;
+            --hd-text-light: #9aa39d;
+
+            --hd-white: #ffffff;
+
+            --hd-border: rgba(23, 56, 43, 0.12);
+            --hd-shadow: 0 12px 35px rgba(16, 37, 29, 0.08);
+            --hd-shadow-soft: 0 5px 20px rgba(16, 37, 29, 0.06);
+
+            --hd-radius: 18px;
+            --hd-radius-small: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            position: static !important;
+            inset: auto !important;
+            background: var(--hd-cream-light) !important;
+            color: var(--hd-text);
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        body.page-transition,
+        body.page-ready {
+            position: static !important;
+            inset: auto !important;
+            background: var(--hd-cream-light) !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .hd-hidden {
+            display: none !important;
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .hd-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 78px;
+            background: rgba(250, 249, 245, 0.96);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--hd-border);
+        }
+
+        .hd-nav-inner {
+            width: min(1400px, calc(100% - 48px));
+            height: 100%;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hd-brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 180px;
+        }
+
+        .hd-brand-logo {
+            width: 44px;
+            height: 52px;
+            flex-shrink: 0;
+        }
+
+        .hd-brand-name {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 5px;
+            color: var(--hd-green-950);
+        }
+
+        .hd-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hd-icon-button {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--hd-border);
+            background: var(--hd-white);
+            border-radius: 50%;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--hd-green-900);
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .hd-icon-button:hover {
+            transform: translateY(-2px);
+            background: var(--hd-green-950);
+            color: white;
+            border-color: var(--hd-green-950);
+        }
+
+        .hd-icon-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hd-notification-wrap {
+            position: relative;
+        }
+
+        .hd-notification-dot {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+            background: #b14c4c;
+            border: 2px solid var(--hd-white);
+        }
+
+        .hd-profile-button {
+            margin-left: 5px;
+            padding: 5px 8px 5px 5px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            background: var(--hd-white);
+            border: 1px solid var(--hd-border);
+            border-radius: 999px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-profile-button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--hd-shadow-soft);
+        }
+
+        .hd-avatar {
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--hd-green-950);
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .hd-profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.15;
+            padding-right: 5px;
+        }
+
+        .hd-profile-info strong {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .hd-profile-info small {
+            margin-top: 3px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-chevron {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .hd-main {
+            width: min(1400px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 38px 0 110px;
+        }
+
+        /* =========================================================
+           GREETING
+        ========================================================= */
+
+        .hd-greeting {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+
+            margin-bottom: 28px;
+        }
+
+        .hd-eyebrow {
+            margin: 0 0 8px;
+            color: var(--hd-green-700);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+        }
+
+        .hd-greeting h1 {
+            margin: 0;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+        }
+
+        .hd-greeting p {
+            max-width: 580px;
+            margin: 10px 0 0;
+            color: var(--hd-text-soft);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .hd-location-status {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 10px 14px;
+
+            background: var(--hd-white);
+            border: 1px solid var(--hd-border);
+            border-radius: 999px;
+
+            color: var(--hd-text-soft);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .hd-location-status svg {
+            width: 16px;
+            height: 16px;
+            color: var(--hd-green-700);
+        }
+
+        /* =========================================================
+           DASHBOARD GRID
+        ========================================================= */
+
+        .hd-dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.9fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .hd-card {
+            background: var(--hd-white);
+            border: 1px solid var(--hd-border);
+            border-radius: var(--hd-radius);
+            box-shadow: var(--hd-shadow-soft);
+        }
+
+        .hd-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+
+            padding: 22px 22px 16px;
+        }
+
+        .hd-card-header h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .hd-card-header p {
+            margin: 5px 0 0;
+            color: var(--hd-text-soft);
+            font-size: 13px;
+        }
+
+        .hd-section-link {
+            border: 0;
+            background: transparent;
+            color: var(--hd-green-700);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           MAP
+        ========================================================= */
+
+        .hd-map-card {
+            overflow: hidden;
+        }
+
+        .hd-map {
+            position: relative;
+            height: 440px;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.45) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    rgba(255,255,255,0.45) 1px,
+                    transparent 1px
+                ),
+                #e8e8df;
+
+            background-size: 70px 70px;
+        }
+
+        .hd-map::before,
+        .hd-map::after {
+            content: "";
+            position: absolute;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 0 0 1px rgba(30,50,40,0.05);
+        }
+
+        .hd-map::before {
+            width: 120%;
+            height: 45px;
+            left: -10%;
+            top: 45%;
+            transform: rotate(-8deg);
+        }
+
+        .hd-map::after {
+            width: 50px;
+            height: 120%;
+            left: 58%;
+            top: -10%;
+            transform: rotate(10deg);
+        }
+
+        .hd-map-road {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 0 1px rgba(30,50,40,0.05);
+        }
+
+        .hd-road-one {
+            width: 120%;
+            height: 36px;
+            top: 22%;
+            left: -10%;
+            transform: rotate(11deg);
+        }
+
+        .hd-road-two {
+            width: 36px;
+            height: 120%;
+            top: -10%;
+            left: 30%;
+            transform: rotate(-6deg);
+        }
+
+        .hd-road-three {
+            width: 120%;
+            height: 30px;
+            top: 72%;
+            left: -10%;
+            transform: rotate(5deg);
+        }
+
+        .hd-map-label {
+            position: absolute;
+            z-index: 3;
+
+            padding: 5px 8px;
+
+            color: #777f79;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .hd-label-one {
+            top: 18%;
+            left: 9%;
+        }
+
+        .hd-label-two {
+            top: 63%;
+            left: 12%;
+        }
+
+        .hd-label-three {
+            top: 30%;
+            right: 9%;
+        }
+
+        .hd-label-four {
+            bottom: 10%;
+            right: 13%;
+        }
+
+        /* =========================================================
+           MAP MARKERS
+        ========================================================= */
+
+        .hd-map-marker {
+            position: absolute;
+            z-index: 10;
+
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--hd-green-950);
+            border: 4px solid white;
+            border-radius: 50%;
+
+            color: white;
+
+            box-shadow:
+                0 8px 18px rgba(16,37,29,0.22);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-map-marker:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 12px 25px rgba(16,37,29,0.3);
+        }
+
+        .hd-map-marker svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hd-marker-one {
+            top: 25%;
+            left: 25%;
+        }
+
+        .hd-marker-two {
+            top: 58%;
+            left: 45%;
+        }
+
+        .hd-marker-three {
+            top: 32%;
+            right: 19%;
+        }
+
+        .hd-marker-four {
+            bottom: 17%;
+            right: 29%;
+        }
+
+        .hd-client-location {
+            position: absolute;
+            z-index: 12;
+            left: 58%;
+            top: 57%;
+
+            width: 20px;
+            height: 20px;
+
+            background: #4774d8;
+            border: 4px solid white;
+            border-radius: 50%;
+
+            box-shadow: 0 0 0 10px rgba(71,116,216,0.13);
+        }
+
+        .hd-client-location::after {
+            content: "";
+            position: absolute;
+            inset: 2px;
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 50%;
+        }
+
+        .hd-map-toolbar {
+            position: absolute;
+            z-index: 20;
+            right: 18px;
+            bottom: 18px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .hd-map-control {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--hd-border);
+            background: rgba(255,255,255,0.96);
+            border-radius: 10px;
+
+            color: var(--hd-green-950);
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .hd-map-control svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hd-map-info {
+            position: absolute;
+            z-index: 20;
+            left: 18px;
+            bottom: 18px;
+
+            max-width: 270px;
+
+            padding: 13px 15px;
+
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--hd-border);
+            border-radius: 13px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .hd-map-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .hd-map-info span {
+            display: block;
+            margin-top: 4px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           BOOKING PANEL
+        ========================================================= */
+
+        .hd-booking-panel {
+            padding-bottom: 20px;
+        }
+
+        .hd-booking-body {
+            padding: 0 22px;
+        }
+
+        .hd-search {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .hd-search input {
+            width: 100%;
+            height: 50px;
+
+            padding: 0 16px 0 45px;
+
+            border: 1px solid var(--hd-border);
+            background: var(--hd-cream-light);
+            border-radius: 12px;
+
+            color: var(--hd-text);
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-search input:focus {
+            border-color: var(--hd-green-500);
+            box-shadow: 0 0 0 4px rgba(111,141,125,0.12);
+        }
+
+        .hd-search svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 18px;
+            height: 18px;
+
+            color: var(--hd-text-soft);
+        }
+
+        .hd-subtitle {
+            margin: 0 0 11px;
+            color: var(--hd-text-soft);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hd-quick-services {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 9px;
+        }
+
+        .hd-quick-service {
+            min-height: 65px;
+            padding: 11px;
+
+            text-align: left;
+
+            border: 1px solid var(--hd-border);
+            background: white;
+            border-radius: 12px;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .hd-quick-service:hover,
+        .hd-quick-service.active {
+            background: var(--hd-green-950);
+            border-color: var(--hd-green-950);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hd-service-icon {
+            width: 28px;
+            height: 28px;
+
+            display: grid;
+            place-items: center;
+
+            margin-bottom: 6px;
+
+            background: var(--hd-cream);
+            border-radius: 8px;
+
+            color: var(--hd-green-900);
+        }
+
+        .hd-quick-service:hover .hd-service-icon,
+        .hd-quick-service.active .hd-service-icon {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        .hd-service-icon svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .hd-quick-service strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .hd-quick-service span {
+            display: block;
+            margin-top: 2px;
+            color: var(--hd-text-soft);
+            font-size: 10px;
+        }
+
+        .hd-quick-service:hover span,
+        .hd-quick-service.active span {
+            color: rgba(255,255,255,0.65);
+        }
+
+        .hd-booking-actions {
+            margin-top: 18px;
+        }
+
+        .hd-primary-button {
+            width: 100%;
+            min-height: 50px;
+
+            position: relative;
+            z-index: 1;
+            pointer-events: auto;
+
+            border: 0;
+            border-radius: 12px;
+
+            background: var(--hd-green-950);
+            color: white;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-primary-button:hover {
+            transform: translateY(-2px);
+            background: var(--hd-green-800);
+            box-shadow: 0 8px 20px rgba(16,37,29,0.15);
+        }
+
+        .hd-secondary-button {
+            min-height: 44px;
+            padding: 0 16px;
+
+            position: relative;
+            z-index: 1;
+            pointer-events: auto;
+
+            border: 1px solid var(--hd-border);
+            background: white;
+            border-radius: 10px;
+
+            color: var(--hd-green-950);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .hd-booking-note {
+            margin: 12px 0 0;
+
+            color: var(--hd-text-light);
+            font-size: 11px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* =========================================================
+           SERVICES
+        ========================================================= */
+
+        .hd-section {
+            margin-top: 28px;
+        }
+
+        .hd-service-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .hd-service-card {
+            min-height: 140px;
+            padding: 17px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            border: 1px solid var(--hd-border);
+            background: white;
+            border-radius: 15px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .hd-service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--hd-shadow);
+            border-color: rgba(23,56,43,0.2);
+        }
+
+        .hd-large-service-icon {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--hd-cream);
+            color: var(--hd-green-900);
+
+            border-radius: 11px;
+        }
+
+        .hd-large-service-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hd-service-card strong {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .hd-service-card span {
+            margin-top: 4px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           HANDYMEN
+        ========================================================= */
+
+        .hd-handyman-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+
+            padding: 0 22px 22px;
+        }
+
+        .hd-handyman-tools {
+            display: grid;
+            grid-template-columns: minmax(180px, 1.6fr) repeat(3, minmax(120px, 1fr)) auto;
+            gap: 9px;
+            padding: 0 22px 18px;
+        }
+
+        .hd-handyman-tools input,
+        .hd-handyman-tools select {
+            min-width: 0;
+            min-height: 42px;
+            padding: 0 11px;
+            border: 1px solid var(--hd-border);
+            border-radius: 9px;
+            background: var(--hd-cream-light);
+            color: var(--hd-text);
+            font-size: 12px;
+        }
+
+        .hd-compare-button,
+        .hd-compare-close {
+            min-height: 42px;
+            padding: 0 12px;
+            border: 1px solid var(--hd-green-800);
+            border-radius: 9px;
+            background: white;
+            color: var(--hd-green-900);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-compare-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .hd-compare-panel {
+            margin: 0 22px 20px;
+            padding: 14px;
+            border: 1px solid var(--hd-border);
+            border-radius: 12px;
+            background: var(--hd-cream-light);
+        }
+
+        .hd-compare-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hd-compare-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .hd-compare-profile {
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid var(--hd-border);
+            border-radius: 9px;
+            background: white;
+        }
+
+        .hd-compare-profile h3 {
+            margin: 0 0 8px;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+
+        .hd-compare-profile p {
+            margin: 5px 0;
+            color: var(--hd-text-soft);
+            font-size: 12px;
+        }
+
+        .hd-compare-select {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 12px 0;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .hd-compare-select input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--hd-green-800);
+        }
+
+        .hd-handyman {
+            padding: 17px;
+
+            border: 1px solid var(--hd-border);
+            border-radius: 15px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-handyman:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hd-shadow-soft);
+        }
+
+        .hd-handyman-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .hd-handyman-avatar {
+            position: relative;
+
+            width: 48px;
+            height: 48px;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--hd-green-950);
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .hd-online-dot {
+            position: absolute;
+            right: -1px;
+            bottom: 1px;
+
+            width: 11px;
+            height: 11px;
+
+            background: #56866c;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .hd-handyman-name {
+            min-width: 0;
+        }
+
+        .hd-handyman-name strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .hd-handyman-name span {
+            display: block;
+            margin-top: 3px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+
+            margin-top: 5px;
+
+            color: var(--hd-green-700);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .hd-verified svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .hd-verification-status {
+            margin-top: 5px;
+            color: #8a6840;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .hd-handyman-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-rating {
+            color: var(--hd-text);
+            font-weight: 700;
+        }
+
+        .hd-book-handyman {
+            width: 100%;
+            height: 39px;
+
+            margin-top: 14px;
+
+            border: 1px solid var(--hd-green-950);
+            background: transparent;
+            border-radius: 9px;
+
+            color: var(--hd-green-950);
+            font-size: 12px;
+            font-weight: 700;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .hd-book-handyman:hover {
+            background: var(--hd-green-950);
+            color: white;
+        }
+
+        /* =========================================================
+           APPOINTMENTS
+        ========================================================= */
+
+        .hd-appointment-list {
+            padding: 0 22px 22px;
+        }
+
+        .hd-appointment {
+            padding: 17px;
+
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            border: 1px solid var(--hd-border);
+            border-radius: 14px;
+        }
+
+        .hd-appointment + .hd-appointment {
+            margin-top: 10px;
+        }
+
+        .hd-appointment-main {
+            display: flex;
+            gap: 13px;
+        }
+
+        .hd-date-box {
+            width: 50px;
+            height: 55px;
+            flex-shrink: 0;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background: var(--hd-cream);
+            border-radius: 10px;
+        }
+
+        .hd-date-box strong {
+            font-size: 18px;
+        }
+
+        .hd-date-box span {
+            color: var(--hd-text-soft);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .hd-appointment-details strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .hd-appointment-details span {
+            display: block;
+            margin-top: 4px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-appointment-status {
+            align-self: center;
+
+            padding: 7px 10px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hd-status-pending {
+            background: #f3ead2;
+            color: #80672e;
+        }
+
+        .hd-status-confirmed {
+            background: #e0eee5;
+            color: #356148;
+        }
+
+        .hd-status-completed {
+            background: #e5e9e7;
+            color: #52605a;
+        }
+
+        .hd-status-payment {
+            background: #eee1df;
+            color: #80504a;
+        }
+
+        .hd-status-timeline {
+            display: grid;
+            gap: 5px;
+            margin: 12px 0 0;
+            padding-left: 18px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-status-timeline li {
+            padding-left: 2px;
+        }
+
+        .hd-status-timeline time {
+            margin-left: 8px;
+            color: var(--hd-text-light);
+        }
+
+        .hd-payment-status {
+            margin: 8px 0 0;
+            color: var(--hd-text-soft);
+            font-size: 12px;
+        }
+
+        .hd-payment-button {
+            min-height: 36px;
+            padding: 0 12px;
+            border: 1px solid var(--hd-green-700);
+            border-radius: 8px;
+            background: white;
+            color: var(--hd-green-900);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-report-button {
+            min-height: 36px;
+            padding: 0 10px;
+            border: 1px solid rgba(139, 73, 73, 0.28);
+            border-radius: 8px;
+            background: white;
+            color: #8b4949;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-change-button {
+            min-height: 36px;
+            padding: 0 10px;
+            border: 1px solid var(--hd-border);
+            border-radius: 8px;
+            background: white;
+            color: var(--hd-green-900);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-change-cancel {
+            color: #8b4949;
+        }
+
+        .hd-report-followup,
+        .hd-change-request-status {
+            margin: 8px 0 0;
+            color: var(--hd-text-soft);
+            font-size: 12px;
+        }
+
+        .hd-address-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        /* =========================================================
+           CHAT
+        ========================================================= */
+
+        .hd-chat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+
+            padding: 0 22px 22px;
+        }
+
+        .hd-chat-item {
+            padding: 15px;
+
+            display: flex;
+            gap: 11px;
+
+            border: 1px solid var(--hd-border);
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .hd-chat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hd-shadow-soft);
+        }
+
+        .hd-chat-avatar {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: var(--hd-green-950);
+            color: white;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-chat-content {
+            min-width: 0;
+        }
+
+        .hd-chat-content strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .hd-chat-content p {
+            overflow: hidden;
+
+            margin: 5px 0 0;
+
+            color: var(--hd-text-soft);
+            font-size: 11px;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .hd-chat-time {
+            display: block;
+            margin-top: 5px;
+            color: var(--hd-text-light);
+            font-size: 9px;
+        }
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
+
+        .hd-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(10, 24, 18, 0.5);
+            backdrop-filter: blur(7px);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .hd-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hd-modal {
+            width: min(570px, 100%);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+
+            background: var(--hd-white);
+            border-radius: 20px;
+
+            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+
+            transform: translateY(15px) scale(0.98);
+
+            transition: transform 0.25s ease;
+        }
+
+        .hd-modal-overlay.active .hd-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .hd-modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+
+            padding: 21px 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: white;
+            border-bottom: 1px solid var(--hd-border);
+        }
+
+        .hd-modal-header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .hd-modal-close {
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--hd-border);
+            background: white;
+            border-radius: 50%;
+        }
+
+        .hd-modal-body {
+            padding: 22px;
+        }
+
+        .hd-form-group {
+            margin-bottom: 16px;
+        }
+
+        .hd-form-group label {
+            display: block;
+            margin-bottom: 7px;
+
+            color: var(--hd-text);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hd-form-group input,
+        .hd-form-group select,
+        .hd-form-group textarea {
+            width: 100%;
+
+            min-height: 46px;
+            padding: 11px 13px;
+
+            border: 1px solid var(--hd-border);
+            background: var(--hd-cream-light);
+            border-radius: 10px;
+
+            outline: none;
+
+            color: var(--hd-text);
+            font-size: 14px;
+        }
+
+        .hd-form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .hd-form-group input:focus,
+        .hd-form-group select:focus,
+        .hd-form-group textarea:focus {
+            border-color: var(--hd-green-500);
+            box-shadow: 0 0 0 4px rgba(111,141,125,0.1);
+        }
+
+        .hd-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .hd-location-box {
+            padding: 14px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            background: var(--hd-cream);
+            border-radius: 11px;
+
+            margin-bottom: 17px;
+        }
+
+        .hd-location-box svg {
+            width: 20px;
+            height: 20px;
+            color: var(--hd-green-800);
+            flex-shrink: 0;
+        }
+
+        .hd-location-box strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .hd-location-box span {
+            display: block;
+            margin-top: 3px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+
+            margin-top: 20px;
+        }
+
+        .hd-modal-actions .hd-primary-button {
+            width: auto;
+            padding: 0 20px;
+        }
+
+        /* =========================================================
+           PROFILE MENU
+        ========================================================= */
+
+        .hd-profile-menu {
+            position: fixed;
+            z-index: 2000;
+            top: 80px;
+            right: max(16px, calc((100vw - min(1400px, calc(100% - 48px))) / 2));
+
+            width: 260px;
+
+            background: white;
+            border: 1px solid var(--hd-border);
+            border-radius: 15px;
+
+            box-shadow: var(--hd-shadow);
+
+            padding: 8px;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-5px);
+
+            transition:
+                opacity 0.18s ease,
+                transform 0.18s ease,
+                visibility 0.18s ease;
+        }
+
+        .hd-profile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .hd-profile-menu-user {
+            padding: 12px;
+            border-bottom: 1px solid var(--hd-border);
+            margin-bottom: 6px;
+        }
+
+        .hd-profile-menu-user strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .hd-profile-menu-user span {
+            display: block;
+            margin-top: 3px;
+            color: var(--hd-text-soft);
+            font-size: 11px;
+        }
+
+        .hd-menu-item {
+            width: 100%;
+            min-height: 43px;
+
+            padding: 0 11px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            border: 0;
+            background: transparent;
+            border-radius: 9px;
+
+            color: var(--hd-text);
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .hd-menu-item:hover {
+            background: var(--hd-cream);
+        }
+
+        .hd-menu-item svg {
+            width: 17px;
+            height: 17px;
+            color: var(--hd-green-800);
+        }
+
+        .hd-menu-danger {
+            color: #8b4949;
+        }
+
+        /* =========================================================
+           MOBILE NAV
+        ========================================================= */
+
+        .hd-mobile-nav {
+            display: none;
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .hd-empty {
+            padding: 30px 15px;
+            text-align: center;
+            color: var(--hd-text-soft);
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+            .hd-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-service-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+
+            .hd-handyman-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .hd-chat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .hd-nav {
+                height: 68px;
+            }
+
+            .hd-profile-menu {
+                top: 62px;
+                right: 12px;
+                width: min(280px, calc(100vw - 24px));
+            }
+
+            .hd-nav-inner {
+                width: calc(100% - 24px);
+            }
+
+            .hd-main {
+                width: calc(100% - 24px);
+                padding-top: 22px;
+                padding-bottom: 95px;
+            }
+
+            .hd-brand-logo {
+                width: 36px;
+                height: 44px;
+            }
+
+            .hd-brand-name {
+                font-size: clamp(1.1rem, 4vw, 1.45rem);
+                letter-spacing: 0.18em;
+            }
+
+            .hd-profile-info,
+            .hd-chevron {
+                display: none;
+            }
+
+            .hd-profile-button {
+                border: 0;
+                background: transparent;
+                padding: 0;
+            }
+
+            .hd-greeting {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hd-greeting h1 {
+                font-size: clamp(1.9rem, 6vw, 2.5rem);
+            }
+
+            .hd-greeting p {
+                font-size: 15px;
+            }
+
+            .hd-location-status {
+                width: 100%;
+                justify-content: center;
+                font-size: 12px;
+            }
+
+            .hd-map {
+                height: 320px;
+            }
+
+            .hd-card-header {
+                padding: 19px 17px 15px;
+            }
+
+            .hd-booking-body {
+                padding: 0 17px;
+            }
+
+            .hd-service-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hd-handyman-grid {
+                grid-template-columns: 1fr;
+                padding: 0 17px 17px;
+            }
+
+            .hd-appointment-list {
+                padding: 0 17px 17px;
+            }
+
+            .hd-chat-grid {
+                padding: 0 17px 17px;
+            }
+
+            .hd-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-mobile-nav {
+                position: fixed;
+                z-index: 1500;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 68px;
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                background: rgba(255,255,255,0.97);
+                border-top: 1px solid var(--hd-border);
+                backdrop-filter: blur(15px);
+            }
+
+            .hd-mobile-nav button {
+                border: 0;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                color: var(--hd-text-soft);
+                font-size: 10px;
+                font-weight: 600;
+            }
+
+            .hd-mobile-nav button.active {
+                color: var(--hd-green-950);
+            }
+
+            .hd-mobile-nav svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .hd-main {
+                width: calc(100% - 18px);
+            }
+
+            .hd-nav-inner {
+                width: calc(100% - 18px);
+            }
+
+            .hd-brand-name {
+                font-size: 1rem;
+            }
+
+            .hd-icon-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .hd-service-grid {
+                gap: 8px;
+            }
+
+            .hd-service-card {
+                min-height: 125px;
+                padding: 14px;
+            }
+
+            .hd-map {
+                height: 290px;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-ready">
+
+    <!-- =========================================================
+         TOP NAVIGATION
+    ========================================================== -->
+
+    <header class="hd-nav">
+
+        <div class="hd-nav-inner">
+
+            <a href="client-dashboard.html" class="hd-brand">
+
+                <!-- ORIGINAL HANDY FOX LOGO -->
+                <svg
+                    class="hd-brand-logo"
+                    viewBox="0 0 90 100"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-label="Handy logo"
+                >
+                    <path
+                        d="M14 28L31 13L45 23L59 13L76 28V57C76 71 65 84 45 94C25 84 14 71 14 57V28Z"
+                        stroke="#10251D"
+                        stroke-width="5"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M23 34L35 25L45 32L55 25L67 34V56C67 66 59 75 45 83C31 75 23 66 23 56V34Z"
+                        stroke="#10251D"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M31 45L36 40L41 45"
+                        stroke="#10251D"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M49 45L54 40L59 45"
+                        stroke="#10251D"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <circle
+                        cx="37"
+                        cy="52"
+                        r="2.5"
+                        fill="#10251D"
+                    />
+
+                    <circle
+                        cx="53"
+                        cy="52"
+                        r="2.5"
+                        fill="#10251D"
+                    />
+
+                    <path
+                        d="M39 61C42 64 48 64 51 61"
+                        stroke="#10251D"
+                        stroke-width="3.5"
+                        stroke-linecap="round"
+                    />
+                </svg>
+
+                <span class="hd-brand-name">HANDY</span>
+
+            </a>
+
+            <div class="hd-nav-right">
+
+                <!-- Notifications -->
+                <div class="hd-notification-wrap">
+
+                    <button
+                        class="hd-icon-button"
+                        id="notificationButton"
+                        type="button"
+                        aria-label="Notifications"
+                        data-open-modal="notificationModal"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path
+                                d="M18 8A6 6 0 0 0 6 8c0 7-3 7-3 9h18c0-2-3-2-3-9"
+                            />
+                            <path d="M10 21h4" />
+                        </svg>
+                    </button>
+
+                    <span class="hd-notification-dot" data-notification-count="0">0</span>
+
+                </div>
+
+                <!-- Profile -->
+                <button
+                    class="hd-profile-button"
+                    id="profileButton"
+                    type="button"
+                >
+
+                    <span
+                        class="hd-avatar"
+                        id="clientAvatar"
+                    >
+                        N
+                    </span>
+
+                    <span class="hd-profile-info">
+                        <strong id="clientNavName">
+                            Client
+                        </strong>
+
+                        <small>
+                            Client
+                        </small>
+                    </span>
+
+                    <svg
+                        class="hd-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         PROFILE DROPDOWN
+    ========================================================== -->
+
+    <div
+        class="hd-profile-menu"
+        id="profileMenu"
+    >
+
+        <div class="hd-profile-menu-user">
+
+            <strong id="profileMenuName">
+                Client
+            </strong>
+
+            <span id="profileMenuEmail">
+                client@email.com
+            </span>
+
+        </div>
+
+        <button
+            class="hd-menu-item"
+            id="openSettingsButton"
+            type="button"
+            data-open-modal="settingsModal"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                    d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.46 15a1.7 1.7 0 0 0-1.56-1.03H6v-2.4h.9A1.7 1.7 0 0 0 8.46 10a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 12.73 5.2V5h2.4v.2a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.56 1.03h.2v2.4h-.2A1.7 1.7 0 0 0 19.4 15Z"
+                />
+            </svg>
+
+            Account settings
+        </button>
+
+        <button
+            class="hd-menu-item"
+            id="openAppointmentsButton"
+            type="button"
+            data-open-modal="bookingModal"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="17"
+                    rx="2"
+                />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+
+            My appointments
+        </button>
+
+        <button
+            class="hd-menu-item"
+            id="openChatButton"
+            type="button"
+            data-open-modal="chatModal"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path
+                    d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.5 8.5 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5Z"
+                />
+            </svg>
+
+            Messages
+        </button>
+
+        <button
+            class="hd-menu-item hd-menu-danger"
+            id="logoutButton"
+            type="button"
+            data-logout="true"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path d="M10 17l5-5-5-5" />
+                <path d="M15 12H3" />
+                <path d="M21 19V5a2 2 0 0 0-2-2h-5" />
+            </svg>
+
+            Log out
+        </button>
+
+    </div>
+
+
+    <div
+        class="hd-modal-overlay"
+        id="ratingModal"
+        aria-hidden="true"
+    >
+        <div class="hd-modal">
+            <div class="hd-modal-header">
+                <h2>Rate your handyman</h2>
+                <button class="hd-modal-close" data-close-modal="ratingModal" type="button">×</button>
+            </div>
+
+            <div class="hd-modal-body">
+                <div class="hd-form-group">
+                    <label>Handyman</label>
+                    <div id="ratingHandymanName" class="hd-rating-name">Handyman</div>
+                </div>
+
+                <div class="hd-form-group">
+                    <label>Your rating</label>
+                    <div class="hd-rating-stars">
+                        <button type="button" class="hd-rating-star" data-rating="1">★</button>
+                        <button type="button" class="hd-rating-star" data-rating="2">★</button>
+                        <button type="button" class="hd-rating-star" data-rating="3">★</button>
+                        <button type="button" class="hd-rating-star" data-rating="4">★</button>
+                        <button type="button" class="hd-rating-star" data-rating="5">★</button>
+                    </div>
+                    <div id="ratingValue" class="hd-rating-value">0 / 5</div>
+                </div>
+
+                <div class="hd-form-group">
+                    <label for="ratingComment">Comment</label>
+                    <textarea id="ratingComment" placeholder="Tell us how the service went..."></textarea>
+                </div>
+
+                <div class="hd-modal-actions">
+                    <button class="hd-secondary-button" data-close-rating="ratingModal" type="button">Cancel</button>
+                    <button class="hd-primary-button" id="submitRatingButton" type="button">Submit Rating</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         MAIN DASHBOARD
+    ========================================================== -->
+
+    <div
+        class="hd-modal-overlay"
+        id="bookingChangeModal"
+        aria-hidden="true"
+    >
+        <div class="hd-modal">
+            <div class="hd-modal-header">
+                <h2 id="bookingChangeTitle">Request a booking change</h2>
+                <button class="hd-modal-close" data-close-modal="bookingChangeModal" type="button" aria-label="Close">×</button>
+            </div>
+
+            <div class="hd-modal-body">
+                <div class="hd-form-row" id="changeScheduleFields">
+                    <div class="hd-form-group">
+                        <label for="changeBookingDate">New date</label>
+                        <input type="date" id="changeBookingDate">
+                    </div>
+                    <div class="hd-form-group">
+                        <label for="changeBookingTime">New time</label>
+                        <input type="time" id="changeBookingTime">
+                    </div>
+                </div>
+
+                <div class="hd-form-group">
+                    <label for="bookingChangeReason">Reason</label>
+                    <textarea id="bookingChangeReason" placeholder="Briefly explain the request."></textarea>
+                </div>
+
+                <div class="hd-modal-actions">
+                    <button class="hd-secondary-button" data-close-modal="bookingChangeModal" type="button">Keep booking</button>
+                    <button class="hd-primary-button" id="submitBookingChangeButton" type="button">Send request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <main class="hd-main" id="top">
+
+        <!-- Greeting -->
+        <section class="hd-greeting">
+
+            <div>
+
+                <p class="hd-eyebrow">
+            <div
+                class="hd-modal-overlay"
+                id="reportBookingModal"
+                aria-hidden="true"
+            >
+                <div class="hd-modal">
+                    <div class="hd-modal-header">
+                        <h2>Report a booking issue</h2>
+                        <button class="hd-modal-close" data-close-modal="reportBookingModal" type="button" aria-label="Close">×</button>
+                    </div>
+
+                    <div class="hd-modal-body">
+                        <p id="reportBookingSummary"></p>
+
+                        <div class="hd-form-group">
+                            <label for="reportCategory">Reason</label>
+                            <select id="reportCategory">
+                                <option value="">Select a reason</option>
+                                <option value="service">Service concern</option>
+                                <option value="payment">Payment concern</option>
+                                <option value="safety">Safety concern</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="hd-form-group">
+                            <label for="reportDetails">Details</label>
+                            <textarea id="reportDetails" placeholder="Describe what happened."></textarea>
+                        </div>
+
+                        <div class="hd-modal-actions">
+                            <button class="hd-primary-button" id="submitBookingReportButton" type="button">Submit report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                    Client dashboard
+                </p>
+
+                <h1>
+                    Good day, <span id="clientGreetingName">there</span>.
+                </h1>
+
+                <p>
+                    Find a trusted handyman near you, book a service,
+                    manage your appointments, and stay connected.
+                </p>
+
+            </div>
+
+            <div class="hd-location-status">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path
+                        d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                    />
+                    <circle cx="12" cy="10" r="2.5" />
+                </svg>
+
+                <span id="locationStatus">
+                    Location not set
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MAIN DASHBOARD GRID
+        ====================================================== -->
+
+        <section class="hd-dashboard-grid">
+
+
+            <!-- =================================================
+                 FIND HANDYMAN / MAP
+            ================================================== -->
+
+            <div class="hd-card hd-map-card">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+
+                    <div class="hd-handyman-tools">
+                        <input
+                            type="search"
+                            id="handymanSearchFilter"
+                            placeholder="Name or specialty"
+                            aria-label="Search handymen by name or specialty"
+                        >
+
+                        <select id="handymanVerificationFilter" aria-label="Verification filter">
+                            <option value="all">All profiles</option>
+                            <option value="verified">Verified only</option>
+                        </select>
+
+                        <select id="handymanRatingFilter" aria-label="Minimum rating">
+                            <option value="0">Any rating</option>
+                            <option value="4">4.0 and up</option>
+                            <option value="4.5">4.5 and up</option>
+                        </select>
+
+                        <select id="handymanDistanceFilter" aria-label="Maximum distance">
+                            <option value="0">Any distance</option>
+                            <option value="5">Within 5 km</option>
+                            <option value="10">Within 10 km</option>
+                            <option value="20">Within 20 km</option>
+                        </select>
+
+                        <button
+                            class="hd-compare-button"
+                            id="compareHandymenButton"
+                            type="button"
+                            disabled
+                        >
+                            Compare (0)
+                        </button>
+                    </div>
+
+                    <div class="hd-compare-panel hd-hidden" id="handymanComparePanel">
+                        <div class="hd-compare-header">
+                            <strong>Handyman comparison</strong>
+                            <button class="hd-compare-close" id="closeCompareButton" type="button" aria-label="Close comparison">Close</button>
+                        </div>
+                        <div class="hd-compare-grid" id="handymanCompareGrid"></div>
+                    </div>
+
+                            Find a handyman
+                        </h2>
+
+                        <p>
+                            Handymen available around your location
+                        </p>
+                    </div>
+
+                    <button
+                        class="hd-section-link"
+                        id="refreshLocationButton"
+                        type="button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <div class="hd-map" id="handymanMap">
+
+                    <div class="hd-map-road hd-road-one"></div>
+                    <div class="hd-map-road hd-road-two"></div>
+                    <div class="hd-map-road hd-road-three"></div>
+
+                    <span class="hd-map-label hd-label-one">
+                        Manila
+                    </span>
+
+                    <span class="hd-map-label hd-label-two">
+                        Residential Area
+                    </span>
+
+                    <span class="hd-map-label hd-label-three">
+                        Commercial Area
+                    </span>
+
+                    <span class="hd-map-label hd-label-four">
+                        Service Area
+                    </span>
+
+
+
+<!-- Client current location -->
+                    <div
+                        class="hd-client-location"
+                        title="Your location"
+                    ></div>
+
+
+                    <!-- Map information -->
+                    <div class="hd-map-info">
+
+                        <strong>
+                            Your location
+                        </strong>
+
+                        <span id="mapLocationText">
+                            Allow location access to find nearby handymen.
+                        </span>
+
+                    </div>
+
+
+                    <!-- Map controls -->
+                    <div class="hd-map-toolbar">
+
+                        <button
+                            class="hd-map-control"
+                            id="locateMeButton"
+                            type="button"
+                            title="Locate me"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+                            </svg>
+                        </button>
+
+                        <button
+                            class="hd-map-control"
+                            id="zoomInButton"
+                            type="button"
+                            title="Zoom in"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>
+                        </button>
+
+                        <button
+                            class="hd-map-control"
+                            id="zoomOutButton"
+                            type="button"
+                            title="Zoom out"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M5 12h14" />
+                            </svg>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOOKING PANEL
+            ================================================== -->
+
+            <div class="hd-card hd-booking-panel">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+                            Book a service
+                        </h2>
+
+                        <p>
+                            What do you need help with?
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="hd-booking-body">
+
+                    <div class="hd-search">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m20 20-4-4" />
+                        </svg>
+
+                        <input
+                            type="search"
+                            id="serviceSearch"
+                            placeholder="Search a service..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <p class="hd-subtitle">
+                        Quick services
+                    </p>
+
+
+                    <div class="hd-quick-services">
+
+                        <button
+                            class="hd-quick-service"
+                            data-service="Electrical Repair"
+                            type="button"
+                        >
+                            <div class="hd-service-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+                                    <path
+                                        d="M13 2L4 14h7l-1 8 9-12h-7l1-8Z"
+                                    />
+                                </svg>
+                            </div>
+
+                            <strong>
+                                Electrical
+                            </strong>
+
+                            <span>
+                                Repair & installation
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="hd-quick-service"
+                            data-service="Plumbing"
+                            type="button"
+                        >
+                            <div class="hd-service-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+                                    <path d="M4 12h12" />
+                                    <path d="M16 8v8" />
+                                    <path d="M20 9v6" />
+                                    <path d="M7 9v6" />
+                                </svg>
+                            </div>
+
+                            <strong>
+                                Plumbing
+                            </strong>
+
+                            <span>
+                                Pipes & water systems
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="hd-quick-service"
+                            data-service="Home Cleaning"
+                            type="button"
+                        >
+                            <div class="hd-service-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+                                    <path d="M5 20h14" />
+                                    <path d="M7 20V8l5-4 5 4v12" />
+                                    <path d="M10 20v-5h4v5" />
+                                </svg>
+                            </div>
+
+                            <strong>
+                                Cleaning
+                            </strong>
+
+                            <span>
+                                Home & deep cleaning
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="hd-quick-service"
+                            data-service="Aircon Cleaning"
+                            type="button"
+                        >
+                            <div class="hd-service-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+                                    <path d="M5 12h14" />
+                                    <path d="M12 5v14" />
+                                    <path d="M8 8l8 8" />
+                                    <path d="M16 8l-8 8" />
+                                </svg>
+                            </div>
+
+                            <strong>
+                                Aircon
+                            </strong>
+
+                            <span>
+                                Cleaning & maintenance
+                            </span>
+                        </button>
+
+                    </div>
+
+
+                    <div class="hd-booking-actions">
+
+                        <button
+                            class="hd-primary-button"
+                            id="findHandymanButton"
+                            type="button"
+                        >
+                            Find available handymen
+                        </button>
+
+                        <p class="hd-booking-note">
+                            We'll show verified handymen based on
+                            your service, location, and schedule.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             POPULAR SERVICES
+        ====================================================== -->
+
+        <section
+            class="hd-section"
+            id="servicesSection"
+        >
+
+            <div class="hd-card">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+                            Popular services
+                        </h2>
+
+                        <p>
+                            Choose a service to start your booking.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="hd-service-grid">
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Electrical Repair"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path
+                                    d="M13 2L4 14h7l-1 8 9-12h-7l1-8Z"
+                                />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Electrical
+                        </strong>
+
+                        <span>
+                            Repair
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Plumbing"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path d="M4 12h12" />
+                                <path d="M16 8v8" />
+                                <path d="M20 9v6" />
+                                <path d="M7 9v6" />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Plumbing
+                        </strong>
+
+                        <span>
+                            Services
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Home Cleaning"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path d="M5 20h14" />
+                                <path d="M7 20V8l5-4 5 4v12" />
+                                <path d="M10 20v-5h4v5" />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Home
+                        </strong>
+
+                        <span>
+                            Cleaning
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Aircon Cleaning"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path d="M5 12h14" />
+                                <path d="M12 5v14" />
+                                <path d="M8 8l8 8" />
+                                <path d="M16 8l-8 8" />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Aircon
+                        </strong>
+
+                        <span>
+                            Cleaning
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Furniture Assembly"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path d="M4 18h16" />
+                                <path d="M6 18v-6h12v6" />
+                                <path d="M8 12V6h8v6" />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Furniture
+                        </strong>
+
+                        <span>
+                            Assembly
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="General Repair"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path
+                                    d="M14 6a4 4 0 0 0 4 4l-8 8a3 3 0 0 1-4-4l8-8a4 4 0 0 0 0-4Z"
+                                />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            General
+                        </strong>
+
+                        <span>
+                            Repairs
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="hd-service-card"
+                        data-service-card="Carpenter"
+                        type="button"
+                    >
+                        <div class="hd-large-service-icon">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path d="M4 18h16" />
+                                <path d="M6 18v-6h12v6" />
+                                <path d="M8 12V6h8v6" />
+                            </svg>
+                        </div>
+
+                        <strong>
+                            Carpenter
+                        </strong>
+
+                        <span>
+                            Carpentry
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             NEARBY HANDYMEN
+        ====================================================== -->
+
+        <section
+            class="hd-section"
+            id="handymenSection"
+        >
+
+            <div class="hd-card">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+                            Nearby handymen
+                        </h2>
+
+                        <p>
+                            Verified professionals available near you.
+                        </p>
+                    </div>
+
+                    <button
+                        class="hd-section-link"
+                        id="viewAllHandymen"
+                        type="button"
+                    >
+                        View all
+                    </button>
+
+                </div>
+
+
+                <div class="hd-handyman-grid" id="handymanGrid"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             APPOINTMENTS
+        ====================================================== -->
+
+        <section
+            class="hd-section"
+            id="appointmentsSection"
+        >
+
+            <div class="hd-card">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+                            My appointments
+                        </h2>
+
+                        <p>
+                            Track your current and upcoming bookings.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="hd-appointment-list"
+                    id="appointmentList"
+                >
+
+                    <div class="hd-empty" id="appointmentEmpty">
+                        No appointments yet. Start by booking a handyman.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CHAT
+        ====================================================== -->
+
+        <section
+            class="hd-section"
+            id="chatSection"
+        >
+
+            <div class="hd-card">
+
+                <div class="hd-card-header">
+
+                    <div>
+                        <h2>
+                            Messages
+                        </h2>
+
+                        <p>
+                            Chat with your handymen about your booking.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="hd-chat-grid" id="clientChatGrid"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         BOOKING MODAL
+    ========================================================== -->
+
+    <div
+        class="hd-modal-overlay"
+        id="bookingModal"
+    >
+
+        <div class="hd-modal">
+
+            <div class="hd-modal-header">
+
+                <h2>
+                    Book a handyman
+                </h2>
+
+                <button
+                    class="hd-modal-close"
+                    data-close-modal="bookingModal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="hd-modal-body">
+
+                <div class="hd-location-box">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path
+                            d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                        />
+                        <circle cx="12" cy="10" r="2.5" />
+                    </svg>
+
+                    <div>
+
+                        <strong>
+                            Service location
+                        </strong>
+
+                        <span id="bookingLocationText">
+                            Use your current location or enter an address.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingService">
+                        Service
+                    </label>
+
+                    <select id="bookingService">
+
+                        <option>
+                            Electrical Repair
+                        </option>
+
+                        <option>
+                            Plumbing
+                        </option>
+
+                        <option>
+                            Home Cleaning
+                        </option>
+
+                        <option>
+                            Aircon Cleaning
+                        </option>
+
+                        <option>
+                            Furniture Assembly
+                        </option>
+
+                        <option>
+                            General Repair
+                        </option>
+
+                        <option>
+                            Carpenter
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingHandyman">
+                        Preferred handyman
+                    </label>
+
+                    <select id="bookingHandyman">
+
+                        <option value="">Select a handyman</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingPaymentMethod">
+                        Payment method
+                    </label>
+
+                    <select id="bookingPaymentMethod">
+
+                        <option value="">Select a payment method</option>
+
+                        <option value="GCash">
+                            GCash
+                        </option>
+
+                        <option value="Bank transfer">
+                            Bank transfer
+                        </option>
+
+                        <option value="Cash">
+                            Cash
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div id="gcashPaymentDetails" class="hd-form-group hd-hidden">
+
+                    <label for="bookingGcashNumber">
+                        GCash number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="bookingGcashNumber"
+                        inputmode="tel"
+                        autocomplete="tel"
+                        placeholder="09XX XXX XXXX"
+                    >
+
+                </div>
+
+
+                <div id="bankTransferDetails" class="hd-hidden">
+
+                    <div class="hd-form-group">
+
+                        <label for="bookingBankName">
+                            Bank name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="bookingBankName"
+                            autocomplete="organization"
+                            placeholder="Enter the bank name"
+                        >
+
+                    </div>
+
+                    <div class="hd-form-group">
+
+                        <label for="bookingTransferReference">
+                            Transfer reference (if already paid)
+                        </label>
+
+                        <input
+                            type="text"
+                            id="bookingTransferReference"
+                            placeholder="Enter the transaction reference"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="hd-form-row">
+
+                    <div class="hd-form-group">
+
+                        <label for="bookingDate">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="bookingDate"
+                        >
+
+                    </div>
+
+
+                    <div class="hd-form-group">
+
+                        <label for="bookingTime">
+                            Preferred time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="bookingTime"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingAddress">
+                        Service address
+                    </label>
+
+                    <textarea
+                        id="bookingAddress"
+                        placeholder="Enter the exact location where the handyman will perform the service."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingNotes">
+                        Additional details
+                    </label>
+
+                    <textarea
+                        id="bookingNotes"
+                        placeholder="Tell the handyman anything they should know before accepting the booking."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="bookingPhotoInput">
+                        Attach a photo (optional)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="bookingPhotoInput"
+                        accept="image/*"
+                        class="hd-hidden"
+                    >
+
+
+                                        <div class="hd-address-actions">
+                                            <select id="bookingSavedAddress" aria-label="Saved addresses">
+                                                <option value="">Choose a saved address</option>
+                                            </select>
+                                            <button
+                                                type="button"
+                                                class="hd-secondary-button"
+                                                id="saveBookingAddressButton"
+                                            >
+                                                Save address
+                                            </button>
+                                        </div>
+                    <button
+                        type="button"
+                        class="hd-secondary-button"
+                        id="attachPhotoButton"
+                    >
+                        Attach photo
+                    </button>
+
+                </div>
+
+
+                <div class="hd-modal-actions">
+
+                    <button
+                        class="hd-secondary-button"
+                        data-close-modal="bookingModal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="hd-primary-button"
+                        id="confirmBookingButton"
+                        type="button"
+                    >
+                        Request booking
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         ACCOUNT SETTINGS MODAL
+    ========================================================== -->
+
+    <div
+        class="hd-modal-overlay"
+        id="settingsModal"
+    >
+
+        <div class="hd-modal">
+
+            <div class="hd-modal-header">
+
+                <h2>
+                    Account settings
+                </h2>
+
+                <button
+                    class="hd-modal-close"
+                    data-close-modal="settingsModal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="hd-modal-body">
+
+                <div class="hd-form-group">
+
+                    <label for="settingsName">
+                        Full name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="settingsName"
+                    >
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="settingsEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="settingsEmail"
+                    >
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="settingsMobile">
+                        Mobile number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="settingsMobile"
+                    >
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <label for="settingsAddress">
+                        Default service address
+                    </label>
+
+                    <textarea
+                        id="settingsAddress"
+                        placeholder="Your usual service location"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="hd-modal-actions">
+
+                    <button
+                        class="hd-secondary-button"
+                        data-close-modal="settingsModal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="hd-primary-button"
+                        id="saveSettingsButton"
+                        type="button"
+                    >
+                        Save changes
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         NOTIFICATION MODAL
+    ========================================================== -->
+
+    <div
+        class="hd-modal-overlay"
+        id="notificationModal"
+    >
+
+        <div class="hd-modal">
+
+            <div class="hd-modal-header">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <button
+                    class="hd-modal-close"
+                    data-close-modal="notificationModal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="hd-modal-body">
+
+                <div class="hd-chat-item">
+
+                    <div class="hd-chat-avatar">
+                        H
+                    </div>
+
+                    <div class="hd-chat-content">
+
+                        <strong>
+                            Handy
+                        </strong>
+
+                        <p>
+                            Your booking requests and handyman updates
+                            will appear here.
+                        </p>
+
+                        <span class="hd-chat-time">
+                            Notifications
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         CHAT MODAL
+    ========================================================== -->
+
+    <div
+        class="hd-modal-overlay"
+        id="chatModal"
+    >
+
+        <div class="hd-modal">
+
+            <div class="hd-modal-header">
+
+                <h2 id="chatModalTitle">
+                    Chat
+                </h2>
+
+                <button
+                    class="hd-modal-close"
+                    data-close-modal="chatModal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="hd-modal-body">
+
+                <div class="hd-location-box">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path
+                            d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.5 8.5 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5Z"
+                        />
+                    </svg>
+
+                    <div>
+
+                        <strong>
+                            Messaging
+                        </strong>
+
+                        <span>
+                            Chat with your handyman about your booking.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hd-form-group">
+
+                    <textarea
+                        id="chatMessage"
+                        placeholder="Write a message..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="hd-modal-actions">
+
+                    <button
+                        class="hd-primary-button"
+                        id="sendChatButton"
+                        type="button"
+                    >
+                        Send message
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAV
+    ========================================================== -->
+
+    <nav class="hd-mobile-nav">
+
+        <button
+            class="active"
+            data-mobile-target="top"
+            type="button"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path
+                    d="M3 11.5 12 4l9 7.5"
+                />
+                <path
+                    d="M5 10v10h14V10"
+                />
+            </svg>
+
+            Home
+        </button>
+
+
+        <button
+            data-mobile-target="servicesSection"
+            type="button"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <rect
+                    x="3"
+                    y="3"
+                    width="7"
+                    height="7"
+                    rx="1"
+                />
+                <rect
+                    x="14"
+                    y="3"
+                    width="7"
+                    height="7"
+                    rx="1"
+                />
+                <rect
+                    x="3"
+                    y="14"
+                    width="7"
+                    height="7"
+                    rx="1"
+                />
+                <rect
+                    x="14"
+                    y="14"
+                    width="7"
+                    height="7"
+                    rx="1"
+                />
+            </svg>
+
+            Services
+        </button>
+
+
+        <button
+            data-mobile-target="appointmentsSection"
+            type="button"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="17"
+                    rx="2"
+                />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+
+            Bookings
+        </button>
+
+
+        <button
+            data-mobile-target="chatSection"
+            type="button"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path
+                    d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.5 8.5 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5Z"
+                />
+            </svg>
+
+            Messages
+        </button>
+
+    </nav>
+
+
+    <!-- CLIENT FIREBASE DASHBOARD -->
+
+    <script type="module" src="./client-dashboard.js"></script>
+
+    <script>
+        document.addEventListener('click', function (event) {
+            const trigger = event.target.closest('[data-open-modal]');
+            if (trigger) {
+                const modalId = trigger.dataset.openModal;
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('active');
+                    modal.setAttribute('aria-hidden', 'false');
+                }
+            }
+
+            const closeTrigger = event.target.closest('[data-close-modal]');
+            if (closeTrigger) {
+                const modal = closeTrigger.closest('.hd-modal-overlay');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            const closeRatingTrigger = event.target.closest('[data-close-rating]');
+            if (closeRatingTrigger) {
+                const modal = document.getElementById('ratingModal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            const ratingStar = event.target.closest('.hd-rating-star');
+            if (ratingStar) {
+                document.querySelectorAll('.hd-rating-star').forEach(star => star.classList.remove('selected'));
+                ratingStar.classList.add('selected');
+                const ratingValue = document.getElementById('ratingValue');
+                if (ratingValue) ratingValue.textContent = ratingStar.dataset.rating + ' / 5';
+            }
+
+            const logoutButton = event.target.closest('[data-logout="true"]');
+            if (logoutButton) {
+                if (window.confirm('Log out from Handy?')) {
+                    localStorage.clear();
+                    window.location.href = '../login.html';
+                }
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            const profileButton = event.target.closest('#profileButton');
+            const menu = document.getElementById('profileMenu');
+
+            if (profileButton) {
+                if (menu) {
+                    menu.classList.toggle('active');
+                }
+                return;
+            }
+
+            if (menu && !event.target.closest('#profileMenu') && !event.target.closest('#profileButton')) {
+                menu.classList.remove('active');
+            }
+
+            const mobileButton = event.target.closest('[data-mobile-target]');
+            if (mobileButton) {
+                const targetId = mobileButton.dataset.mobileTarget;
+                const target = targetId === 'top' ? document.getElementById('top') : document.getElementById(targetId);
+
+                document.querySelectorAll('.hd-mobile-nav button').forEach(button => {
+                    button.classList.toggle('active', button === mobileButton);
+                });
+
+                if (target) {
+                    const offset = window.innerWidth <= 700 ? 90 : 120;
+                    const targetTop = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                } else if (targetId === 'top') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                return;
+            }
+
+            const bookHandymanButton = event.target.closest('.hd-select-handyman');
+            if (bookHandymanButton) {
+                const handymanId = bookHandymanButton.dataset.handymanId;
+                const select = document.getElementById('bookingHandyman');
+                if (select) select.value = handymanId;
+
+                const modal = document.getElementById('bookingModal');
+                if (modal) modal.classList.add('active');
+
+                return;
+            }
+
+        });
+    </script>
+
+    <style>
+        :root {
+            --client-bg: #f5f2eb;
+            --client-panel: #ffffff;
+            --client-panel-soft: #faf8f4;
+            --client-border: rgba(23, 56, 43, 0.09);
+            --client-text: #17251e;
+            --client-soft: #64736c;
+            --client-muted: #8a968f;
+            --client-green: #17382b;
+            --client-green-soft: #2c624f;
+            --client-shadow: 0 18px 38px rgba(17, 31, 25, 0.06);
+        }
+
+        body {
+            background: linear-gradient(180deg, #f7f4ef 0%, #f1efe9 100%);
+            color: var(--client-text);
+            font-family: Inter, "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .hd-nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid var(--client-border);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(17, 31, 25, 0.03);
+        }
+
+        .hd-main {
+            width: min(1220px, calc(100% - 32px));
+            padding-top: 30px;
+            padding-bottom: 120px;
+        }
+
+        .hd-greeting {
+            margin-bottom: 22px;
+            padding: 8px 4px 0;
+        }
+
+        .hd-greeting h1 {
+            font-size: clamp(2.15rem, 3.2vw, 3.4rem);
+            letter-spacing: -0.065em;
+        }
+
+        .hd-greeting p {
+            max-width: 620px;
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .hd-card {
+            border: 1px solid var(--client-border);
+            border-radius: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #faf9f6 100%);
+            box-shadow: var(--client-shadow);
+        }
+
+        .hd-card-header {
+            padding: 22px 22px 12px;
+        }
+
+        .hd-card-header h2 {
+            font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+            letter-spacing: -0.04em;
+        }
+
+        .hd-section-link {
+            font-weight: 700;
+        }
+
+        .hd-search input {
+            border-radius: 14px;
+            border: 1px solid rgba(23, 56, 43, 0.12);
+            background: #f8f5ee;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.01);
+        }
+
+        .hd-quick-service,
+        .hd-service-card,
+        .hd-handyman,
+        .hd-appointment,
+        .hd-chat-item {
+            border: 1px solid rgba(23, 56, 43, 0.08);
+            border-radius: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #faf9f5 100%);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .hd-quick-service:hover,
+        .hd-service-card:hover,
+        .hd-handyman:hover,
+        .hd-appointment:hover,
+        .hd-chat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 22px rgba(17, 31, 25, 0.05);
+            border-color: rgba(23, 56, 43, 0.12);
+        }
+
+        .hd-quick-service.active,
+        .hd-quick-service:hover {
+            background: linear-gradient(180deg, #17382b 0%, #10251d 100%);
+            border-color: rgba(16, 37, 29, 0.95);
+            box-shadow: 0 16px 26px rgba(16, 37, 29, 0.12);
+        }
+
+        .hd-primary-button,
+        .hd-secondary-button,
+        .hd-book-handyman,
+        .hd-menu-item,
+        .hd-icon-button,
+        .hd-profile-button,
+        .hd-map-control {
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .hd-primary-button:hover,
+        .hd-secondary-button:hover,
+        .hd-book-handyman:hover,
+        .hd-menu-item:hover,
+        .hd-icon-button:hover,
+        .hd-profile-button:hover,
+        .hd-map-control:hover {
+            transform: translateY(-1px);
+        }
+
+        .hd-primary-button {
+            border-radius: 14px;
+            box-shadow: 0 12px 20px rgba(16, 37, 29, 0.12);
+        }
+
+        .hd-secondary-button {
+            border-radius: 12px;
+        }
+
+        .hd-map-card {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .hd-map {
+            height: 420px;
+            border-radius: 0;
+            background-color: #e7ebdf;
+        }
+
+        .hd-map-info {
+            left: 17px;
+            bottom: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(23, 56, 43, 0.08);
+            border-radius: 14px;
+            box-shadow: 0 12px 24px rgba(17, 31, 25, 0.08);
+        }
+
+        .hd-map-toolbar {
+            right: 16px;
+            bottom: 16px;
+        }
+
+        .hd-map-control {
+            border-radius: 12px;
+            border: 1px solid rgba(23, 56, 43, 0.08);
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 10px 20px rgba(17, 31, 25, 0.06);
+        }
+
+        .hd-booking-note {
+            margin-top: 14px;
+            color: var(--client-soft);
+        }
+
+        .hd-service-grid {
+            gap: 14px;
+        }
+
+        .hd-service-card {
+            min-height: 150px;
+            padding: 16px;
+            border-radius: 18px;
+        }
+
+        .hd-large-service-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #f3f1eb;
+        }
+
+        .hd-handyman-grid {
+            gap: 15px;
+            padding: 0 22px 22px;
+        }
+
+        .hd-handyman {
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .hd-handyman-avatar {
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hd-book-handyman {
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid rgba(23, 56, 43, 0.18);
+            background: white;
+            color: var(--client-green);
+        }
+
+        .hd-book-handyman:hover {
+            background: var(--client-green);
+            color: white;
+        }
+
+        .hd-appointment {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        .hd-date-box {
+            border-radius: 12px;
+            background: #f3efe9;
+            border: 1px solid rgba(23, 56, 43, 0.06);
+        }
+
+        .hd-chat-item {
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .hd-modal {
+            border-radius: 22px;
+            box-shadow: 0 30px 70px rgba(17, 31, 25, 0.18);
+        }
+
+        .hd-form-group label {
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--client-soft);
+        }
+
+        .hd-form-group input,
+        .hd-form-group select,
+        .hd-form-group textarea {
+            border-radius: 12px;
+            border: 1px solid rgba(23, 56, 43, 0.12);
+            background: #f8f6f2;
+            color: var(--client-text);
+            font-size: 14px;
+        }
+
+        .hd-profile-menu {
+            border: 1px solid var(--client-border);
+            border-radius: 18px;
+            box-shadow: 0 18px 32px rgba(17, 31, 25, 0.08);
+        }
+
+        @media (max-width: 1100px) {
+            .hd-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-service-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+
+            .hd-handyman-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .hd-main {
+                width: calc(100% - 22px);
+                padding-top: 22px;
+            }
+
+            .hd-nav-inner {
+                width: calc(100% - 22px);
+            }
+
+            .hd-brand-name {
+                font-size: clamp(1.1rem, 4vw, 1.4rem);
+                letter-spacing: 0.18em;
+            }
+
+            .hd-profile-info,
+            .hd-chevron {
+                display: none;
+            }
+
+            .hd-profile-button {
+                background: transparent;
+                border: 0;
+                padding: 0;
+            }
+
+            .hd-greeting {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .hd-map {
+                height: 320px;
+            }
+
+            .hd-service-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hd-handyman-grid {
+                grid-template-columns: 1fr;
+                padding: 0 17px 17px;
+            }
+
+            .hd-appointment-list {
+                padding: 0 17px 17px;
+            }
+
+            .hd-chat-grid {
+                padding: 0 17px 17px;
+            }
+
+            .hd-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-handyman-tools {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: 0 17px 16px;
+            }
+
+            .hd-address-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-handyman-tools input {
+                grid-column: 1 / -1;
+            }
+
+            .hd-compare-panel {
+                margin: 0 17px 17px;
+            }
+
+            .hd-compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .hd-main {
+                width: calc(100% - 18px);
+            }
+
+            .hd-nav-inner {
+                width: calc(100% - 18px);
+            }
+
+            .hd-service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-location-status {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .hd-main,
+            .hd-card,
+            .hd-appointment,
+            .hd-modal {
+                min-width: 0;
+            }
+
+            .hd-appointment {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hd-appointment-info {
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+
+            .hd-appointment-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .hd-appointment-actions button {
+                width: 100%;
+                min-width: 0;
+                min-height: 42px;
+                padding: 7px 9px;
+                overflow-wrap: anywhere;
+            }
+
+            .hd-modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+
+            .hd-modal {
+                width: 100%;
+                max-height: min(92dvh, 820px);
+                border-radius: 18px 18px 0 0;
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+
+            .hd-modal-actions {
+                flex-wrap: wrap;
+            }
+
+            .hd-modal-actions > button {
+                flex: 1 1 130px;
+                min-width: 0;
+            }
+
+            .hd-mobile-nav {
+                height: calc(68px + env(safe-area-inset-bottom, 0px));
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+
+            .hd-main {
+                padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hd-nav-right {
+                gap: 4px;
+            }
+
+            .hd-icon-button {
+                width: 36px;
+                height: 36px;
+            }
+
+            .hd-card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .hd-handyman-tools {
+                grid-template-columns: 1fr;
+            }
+
+            .hd-handyman-tools input {
+                grid-column: auto;
+            }
+
+            .hd-appointment-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</body>
+</html>

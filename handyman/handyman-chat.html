@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | Handy</title>
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .chat-page{min-height:100vh;background:var(--cream-light)}
+        .chat-header{height:72px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border)}
+        .chat-brand{display:flex;align-items:center;gap:10px;color:var(--green-900);text-decoration:none;font-weight:800;letter-spacing:.12em}
+        .chat-brand img{width:34px;height:34px;object-fit:contain}
+        .chat-back{color:var(--text-soft);text-decoration:none;font-size:13px}
+        .chat-layout{width:min(1200px,94%);height:calc(100vh - 72px);margin:0 auto;padding:24px 0;display:grid;grid-template-columns:330px 1fr;gap:18px;box-sizing:border-box}
+        .chat-sidebar,.chat-window{min-height:0;background:var(--white);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+        .chat-sidebar{display:flex;flex-direction:column}
+        .chat-sidebar-header{padding:22px;border-bottom:1px solid var(--border)}
+        .chat-sidebar-header h1{margin:0;font-size:22px;color:var(--text);letter-spacing:-.03em}
+        .chat-sidebar-header p{margin:6px 0 0;color:var(--text-soft);font-size:12px}
+        .conversation-list{flex:1;overflow-y:auto}
+        .conversation{width:100%;padding:16px;display:flex;gap:12px;align-items:center;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;cursor:pointer;font:inherit}
+        .conversation:hover{background:var(--cream-light)}
+        .conversation.active{background:rgba(46,98,76,.07)}
+        .conversation-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--green-900);color:var(--white);font-weight:700;font-size:15px}
+        .conversation-content{min-width:0;flex:1}
+        .conversation-name{display:block;color:var(--text);font-size:14px;font-weight:700}
+        .conversation-preview{display:block;margin-top:4px;color:var(--text-soft);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .conversation-time{color:var(--text-light);font-size:10px;white-space:nowrap}
+        .empty-conversations{padding:30px 20px;text-align:center;color:var(--text-light);font-size:13px}
+        .chat-window{display:flex;flex-direction:column}
+        .chat-top{min-height:72px;padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+        .chat-top-avatar{width:42px;height:42px;border-radius:50%;background:var(--green-900);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700}
+        .chat-top-info{min-width:0}
+        .chat-top-info h2{margin:0;font-size:16px;color:var(--text)}
+        .chat-top-info p{margin:3px 0 0;color:var(--text-soft);font-size:11px}
+        .messages{flex:1;min-height:0;padding:22px;overflow-y:auto;background:var(--cream-light)}
+        .chat-empty{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--text-light);font-size:13px}
+        .message-row{display:flex;margin-bottom:12px}
+        .message-row.mine{justify-content:flex-end}
+        .message-bubble{max-width:min(72%,520px);padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.5;word-break:break-word}
+        .message-row.mine .message-bubble{background:var(--green-900);color:var(--white);border-bottom-right-radius:4px}
+        .message-row.theirs .message-bubble{background:var(--white);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
+        .message-time{display:block;margin-top:4px;font-size:9px;opacity:.6}
+        .message-form{padding:13px;display:flex;gap:9px;border-top:1px solid var(--border);background:var(--white)}
+        .message-input{flex:1;min-width:0;min-height:44px;padding:0 14px;border:1px solid var(--border);border-radius:12px;background:var(--cream-light);color:var(--text);font:inherit;font-size:13px;outline:none}
+        .message-input:focus{border-color:var(--green-500);background:var(--white)}
+        .send-button{width:82px;min-height:44px;border:0;border-radius:12px;background:var(--green-900);color:var(--white);cursor:pointer;font:inherit;font-size:12px;font-weight:700}
+        .send-button:hover{background:var(--green-800)}
+        .send-button:disabled{opacity:.5;cursor:not-allowed}
+        .page-transition{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+        body.chat-page{opacity:1!important;visibility:visible!important}
+        @media(max-width:760px){
+            .chat-layout{width:100%;height:calc(100vh - 72px);padding:0;display:block}
+            .chat-sidebar{display:none}
+            .chat-window{height:100%;border-radius:0;border:0}
+            .chat-header{padding:0 18px}
+            .message-bubble{max-width:82%}
+        }
+    </style>
+</head>
+
+<body class="chat-page page-ready">
+
+<header class="chat-header">
+    <a href="./handyman-dashboard.html" class="chat-brand">
+        <img src="../assets/handy-logo.png" alt="Handy">
+        <span>HANDY</span>
+    </a>
+    <a href="./handyman-dashboard.html" class="chat-back">Back to dashboard</a>
+</header>
+
+<main class="chat-layout">
+    <aside class="chat-sidebar">
+        <div class="chat-sidebar-header">
+            <h1>Messages</h1>
+            <p>Conversations with your clients</p>
+        </div>
+
+        <div class="conversation-list" id="conversationList">
+            <div class="empty-conversations">Loading conversations...</div>
+        </div>
+    </aside>
+
+    <section class="chat-window">
+        <div class="chat-top" id="chatTop">
+            <div class="chat-top-avatar" id="chatAvatar">C</div>
+            <div class="chat-top-info">
+                <h2 id="chatName">Select a conversation</h2>
+                <p id="chatService">Your client messages will appear here.</p>
+            </div>
+        </div>
+
+        <div class="messages" id="messages">
+            <div class="chat-empty">Select a client conversation to start chatting.</div>
+        </div>
+
+        <form class="message-form" id="messageForm">
+            <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." autocomplete="off" disabled>
+            <button type="submit" class="send-button" id="sendButton" disabled>Send</button>
+        </form>
+    </section>
+</main>
+
+<script type="module" src="./handyman-chat.js"></script>
+</body>
+</html>

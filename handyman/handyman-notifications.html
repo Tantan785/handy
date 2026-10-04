@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Handy | Notifications</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .notifications-page {
+            min-height: 100vh;
+            background: var(--cream-light);
+            color: var(--text);
+        }
+
+        .notifications-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 76px;
+            background: rgba(250,249,245,.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notifications-nav-inner {
+            width: min(980px, calc(100% - 40px));
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notifications-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--green-900);
+        }
+
+        .notifications-brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .notifications-brand span {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.03em;
+        }
+
+        .notifications-back {
+            height: 40px;
+            padding: 0 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: var(--green-900);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .notifications-back svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .notifications-main {
+            width: min(980px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 45px 0 80px;
+        }
+
+        .notifications-header {
+            margin-bottom: 25px;
+        }
+
+        .notifications-eyebrow {
+            margin: 0 0 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--green-700);
+        }
+
+        .notifications-title {
+            margin: 0;
+            font-size: clamp(30px, 4vw, 42px);
+            line-height: 1.05;
+            letter-spacing: -.045em;
+            color: var(--green-950);
+        }
+
+        .notifications-subtitle {
+            margin: 10px 0 0;
+            font-size: 14px;
+            color: var(--text-soft);
+        }
+
+        .notifications-toolbar {
+            margin-bottom: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .notification-count {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green-900);
+        }
+
+        .mark-all-button {
+            height: 36px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--green-900);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .mark-all-button:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .notifications-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .notification-card {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 42px minmax(0,1fr) auto;
+            align-items: start;
+            gap: 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: white;
+            box-shadow: 0 7px 22px rgba(23,56,43,.035);
+            transition: .2s ease;
+        }
+
+        .notification-card.unread {
+            border-color: rgba(46,98,76,.22);
+            background: #fcfdfb;
+        }
+
+        .notification-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            color: var(--green-900);
+        }
+
+        .notification-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .notification-content {
+            min-width: 0;
+        }
+
+        .notification-title {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--green-900);
+        }
+
+        .notification-message {
+            margin: 5px 0 0;
+            font-size: 11px;
+            line-height: 1.55;
+            color: var(--text-soft);
+        }
+
+        .notification-time {
+            margin-top: 7px;
+            font-size: 9px;
+            color: var(--text-light);
+        }
+
+        .notification-actions {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .notification-action {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 9px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--green-900);
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .notification-action.delete {
+            color: #8b3939;
+        }
+
+        .notification-dot {
+            width: 7px;
+            height: 7px;
+            margin-top: 5px;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            background: var(--green-700);
+        }
+
+        .empty-notifications {
+            padding: 55px 25px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+        }
+
+        .empty-notifications h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--green-900);
+        }
+
+        .empty-notifications p {
+            margin: 7px auto 0;
+            max-width: 400px;
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-soft);
+        }
+
+        .notifications-message {
+            display: none;
+            margin-bottom: 15px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 11px;
+        }
+
+        .notifications-message.show {
+            display: block;
+        }
+
+        .notifications-message.error {
+            background: #fff7f7;
+            color: #8b3939;
+        }
+
+        .notifications-message.success {
+            background: #edf5ef;
+            color: #24543d;
+        }
+
+        /* FIX: prevent global page-transition styles from hiding this page */
+        .page-transition {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
+        body.notifications-page {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        @media (max-width: 600px) {
+            .notifications-nav {
+                height: 68px;
+            }
+
+            .notifications-nav-inner {
+                width: calc(100% - 24px);
+            }
+
+            .notifications-brand span {
+                font-size: 18px;
+            }
+
+            .notifications-main {
+                width: calc(100% - 24px);
+                padding-top: 30px;
+            }
+
+            .notifications-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .mark-all-button {
+                width: 100%;
+            }
+
+            .notification-card {
+                grid-template-columns: 38px minmax(0,1fr);
+            }
+
+            .notification-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .notification-actions {
+                grid-column: 2;
+            }
+        }
+    </style>
+</head>
+
+<body class="notifications-page page-ready">
+
+<header class="notifications-nav">
+    <div class="notifications-nav-inner">
+
+        <a
+            href="handyman-dashboard.html"
+            class="notifications-brand"
+            id="dashboardLink"
+        >
+            <img
+                src="../assets/handy-logo.png"
+                alt="Handy"
+            >
+
+            <span>Handy</span>
+        </a>
+
+        <button
+            type="button"
+            class="notifications-back"
+            id="backButton"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+            </svg>
+
+            Dashboard
+        </button>
+
+    </div>
+</header>
+
+<main class="notifications-main">
+
+    <section class="notifications-header">
+
+        <p class="notifications-eyebrow">
+            Updates
+        </p>
+
+        <h1 class="notifications-title">
+            Notifications
+        </h1>
+
+        <p class="notifications-subtitle">
+            Stay updated with your bookings, clients, and Handy activity.
+        </p>
+
+    </section>
+
+    <div
+        class="notifications-message"
+        id="notificationsMessage"
+        aria-live="polite"
+    ></div>
+
+    <section class="notifications-toolbar">
+
+        <span
+            class="notification-count"
+            id="notificationCount"
+        >
+            Loading notifications...
+        </span>
+
+        <button
+            type="button"
+            class="mark-all-button"
+            id="markAllButton"
+        >
+            Mark all as read
+        </button>
+
+    </section>
+
+    <section
+        class="notifications-list"
+        id="notificationsList"
+    ></section>
+
+    <section
+        class="empty-notifications"
+        id="emptyNotifications"
+        hidden
+    >
+        <h3>
+            You're all caught up
+        </h3>
+
+        <p>
+            New booking updates, client messages, and service activity will appear here.
+        </p>
+
+    </section>
+
+</main>
+
+<script type="module" src="./handyman-notifications.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Handyman Account | Handy</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        .ha-page {
+            min-height: 100vh;
+            background: var(--cream-light);
+        }
+
+        .ha-header {
+            height: 76px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ha-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--green-900);
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .ha-brand img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+        }
+
+        .ha-back {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .ha-back:hover {
+            color: var(--green-900);
+        }
+
+        .ha-main {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+            padding: 48px 0 80px;
+        }
+
+        .ha-title {
+            margin-bottom: 28px;
+        }
+
+        .ha-eyebrow {
+            margin: 0 0 8px;
+            color: var(--green-700);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .ha-title h1 {
+            margin: 0;
+            color: var(--text);
+            font-size: clamp(30px, 4vw, 44px);
+            letter-spacing: -.04em;
+        }
+
+        .ha-title p {
+            margin: 10px 0 0;
+            color: var(--text-soft);
+        }
+
+        .ha-grid {
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .ha-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 26px;
+            box-shadow: 0 12px 35px rgba(23, 56, 43, .04);
+        }
+
+        .ha-profile {
+            text-align: center;
+        }
+
+        .ha-avatar {
+            width: 92px;
+            height: 92px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--green-900);
+            color: var(--white);
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .ha-profile h2 {
+            margin: 0;
+            color: var(--text);
+            font-size: 22px;
+        }
+
+        .ha-service {
+            margin-top: 6px;
+            color: var(--text-soft);
+            font-size: 14px;
+        }
+
+        .ha-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 15px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: rgba(46, 98, 76, .08);
+            color: var(--green-700);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .ha-status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4d8a65;
+        }
+
+        .ha-verification-panel {
+            margin-top: 16px;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--cream-light);
+            text-align: left;
+        }
+
+        .ha-verification-panel strong {
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        .ha-verification-panel ul {
+            display: grid;
+            gap: 6px;
+            margin: 9px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ha-verification-panel li {
+            font-size: 11px;
+        }
+
+        .ha-verification-panel li.complete {
+            color: var(--green-700);
+        }
+
+        .ha-verification-panel li.incomplete {
+            color: #8b6840;
+        }
+
+        .ha-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .ha-stat {
+            padding: 13px 6px;
+            background: var(--cream-light);
+            border-radius: 12px;
+        }
+
+        .ha-stat strong {
+            display: block;
+            color: var(--text);
+            font-size: 19px;
+        }
+
+        .ha-stat span {
+            display: block;
+            margin-top: 3px;
+            color: var(--text-light);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .ha-actions {
+            display: grid;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .ha-button {
+            width: 100%;
+            min-height: 45px;
+            border: 0;
+            border-radius: 10px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .ha-button-primary {
+            background: var(--green-900);
+            color: var(--white);
+        }
+
+        .ha-button-primary:hover {
+            background: var(--green-800);
+        }
+
+        .ha-button-secondary {
+            background: var(--cream);
+            color: var(--green-900);
+        }
+
+        .ha-button-secondary:hover {
+            background: var(--cream-dark);
+        }
+
+        .ha-button-danger {
+            background: transparent;
+            color: #a04444;
+        }
+
+        .ha-section + .ha-section {
+            margin-top: 22px;
+        }
+
+        .ha-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ha-section-header h2 {
+            margin: 0;
+            color: var(--text);
+            font-size: 19px;
+        }
+
+        .ha-section-header span {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .ha-fields {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
+        }
+
+        .ha-field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .ha-field-full {
+            grid-column: 1 / -1;
+        }
+
+        .ha-field label {
+            color: var(--text-soft);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .ha-field input,
+        .ha-field select,
+        .ha-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--cream-light);
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .ha-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .ha-field input:focus,
+        .ha-field select:focus,
+        .ha-field textarea:focus {
+            border-color: var(--green-500);
+            background: var(--white);
+        }
+
+        .ha-field input:disabled {
+            color: var(--text-light);
+            cursor: not-allowed;
+        }
+
+        .ha-field input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            padding: 0;
+            accent-color: var(--green-800);
+        }
+
+        .ha-schedule-toggle,
+        .ha-schedule-days label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ha-schedule-days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ha-schedule-fields[hidden],
+        .ha-hidden {
+            display: none !important;
+        }
+
+        .ha-date-off-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+        }
+
+        .ha-unavailable-dates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .ha-unavailable-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            border-radius: 7px;
+            background: var(--cream);
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .ha-save-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .ha-save {
+            width: auto;
+            min-width: 160px;
+            padding: 0 20px;
+        }
+
+        .ha-message {
+            display: none;
+            margin-top: 14px;
+            padding: 11px 13px;
+            border-radius: 9px;
+            font-size: 13px;
+        }
+
+        .ha-message.show {
+            display: block;
+        }
+
+        .ha-message.success {
+            background: rgba(46, 98, 76, .09);
+            color: var(--green-700);
+        }
+
+        .ha-message.error {
+            background: rgba(160, 68, 68, .08);
+            color: #a04444;
+        }
+
+        .ha-bookings {
+            display: grid;
+            gap: 10px;
+        }
+
+        .ha-booking {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .ha-booking-info strong {
+            display: block;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .ha-booking-info span {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-soft);
+            font-size: 12px;
+        }
+
+        .ha-booking-status {
+            padding: 6px 9px;
+            border-radius: 999px;
+            background: var(--cream);
+            color: var(--green-900);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .ha-empty {
+            padding: 25px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 13px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+        }
+
+        .ha-loading {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .ha-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ha-profile {
+                text-align: left;
+            }
+
+            .ha-avatar {
+                margin: 0 0 16px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .ha-main {
+                width: 94%;
+                padding-top: 30px;
+            }
+
+            .ha-header {
+                padding: 0 4%;
+            }
+
+            .ha-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .ha-field-full {
+                grid-column: auto;
+            }
+
+            .ha-booking {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body class="ha-page page-ready">
+<style>
+.page-transition{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+body.ha-page{opacity:1!important;visibility:visible!important}
+</style>
+
+
+    <header class="ha-header">
+
+        <a
+            href="./handyman-dashboard.html"
+            class="ha-brand"
+        >
+            <img
+                src="../assets/handy-logo.png"
+                alt="Handy"
+            >
+
+            <span>HANDY</span>
+        </a>
+
+        <a
+            href="./handyman-dashboard.html"
+            class="ha-back"
+        >
+            Back to dashboard
+        </a>
+
+    </header>
+
+
+    <main class="ha-main">
+
+        <div class="ha-title">
+
+            <p class="ha-eyebrow">
+                Handyman account
+            </p>
+
+            <h1>
+                Your professional profile
+            </h1>
+
+            <p>
+                Manage the information clients see when they book your service.
+            </p>
+
+        </div>
+
+
+        <div class="ha-grid">
+
+
+            <!-- PROFILE SUMMARY -->
+
+            <aside class="ha-card ha-profile">
+
+                <div
+                    class="ha-avatar"
+                    id="accountAvatar"
+                >
+                    H
+                </div>
+
+                <h2 id="accountName">
+                    Loading...
+                </h2>
+
+                <div
+                    class="ha-service"
+                    id="accountService"
+                >
+                    Loading...
+                </div>
+
+                <div class="ha-status">
+
+                    <span class="ha-status-dot"></span>
+
+                    <span id="availabilityText">
+                        Available
+                    </span>
+
+                </div>
+
+                <div class="ha-verification-panel">
+                    <strong id="verificationStatusLabel">Verification pending</strong>
+                    <ul id="verificationChecklist"></ul>
+                </div>
+
+
+                <div class="ha-stats">
+
+                    <div class="ha-stat">
+                        <strong id="completedCount">
+                            0
+                        </strong>
+
+                        <span>
+                            Jobs
+                        </span>
+                    </div>
+
+                    <div class="ha-stat">
+                        <strong id="ratingCount">
+                            0.0
+                        </strong>
+
+                        <span>
+                            Rating
+                        </span>
+                    </div>
+
+                    <div class="ha-stat">
+                        <strong id="reviewCount">
+                            0
+                        </strong>
+
+                        <span>
+                            Reviews
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="ha-actions">
+
+                    <button
+                        type="button"
+                        class="ha-button ha-button-primary"
+                        id="openMessagesButton"
+                    >
+                        Messages
+                    </button>
+
+                    <button
+                        type="button"
+                        class="ha-button ha-button-secondary"
+                        id="openJobsButton"
+                    >
+                        My bookings
+                    </button>
+
+                    <button
+                        type="button"
+                        class="ha-button ha-button-danger"
+                        id="logoutButton"
+                    >
+                        Log out
+                    </button>
+
+                </div>
+
+            </aside>
+
+
+            <section>
+
+
+                <!-- PROFILE -->
+
+                <div class="ha-card ha-section">
+
+                    <div class="ha-section-header">
+
+                        <h2>
+                            Profile information
+                        </h2>
+
+                        <span>
+                            Visible to clients
+                        </span>
+
+                    </div>
+
+
+                    <div class="ha-fields">
+
+                        <div class="ha-field">
+
+                            <label for="accountNameInput">
+                                Full name
+                            </label>
+
+                            <input
+                                id="accountNameInput"
+                                type="text"
+                            >
+
+                        </div>
+
+
+                        <div class="ha-field">
+
+                            <label for="accountEmailInput">
+                                Email
+                            </label>
+
+                            <input
+                                id="accountEmailInput"
+                                type="email"
+                                disabled
+                            >
+
+                        </div>
+
+
+                        <div class="ha-field">
+
+                            <label for="accountPhoneInput">
+                                Mobile number
+                            </label>
+
+                            <input
+                                id="accountPhoneInput"
+                                type="tel"
+                            >
+
+                        </div>
+
+
+                        <div class="ha-field">
+
+                            <label for="accountCategoryInput">
+                                Service category
+                            </label>
+
+                            <select
+                                id="accountCategoryInput"
+                            >
+                                <option value="Cleaning">
+                                    Cleaning
+                                </option>
+
+                                <option value="Plumbing">
+                                    Plumbing
+                                </option>
+
+                                <option value="Electrical">
+                                    Electrical
+                                </option>
+
+                                <option value="Carpentry">
+                                    Carpentry
+                                </option>
+
+                                <option value="Painting">
+                                    Painting
+                                </option>
+
+                                <option value="Appliance Repair">
+                                    Appliance Repair
+                                </option>
+
+                                <option value="Moving">
+                                    Moving
+                                </option>
+
+                                <option value="Gardening">
+                                    Gardening
+                                </option>
+
+                                <option value="General Handyman">
+                                    General Handyman
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="ha-field">
+
+                            <label for="accountServiceInput">
+                                Service name
+                            </label>
+
+                            <input
+                                id="accountServiceInput"
+                                type="text"
+                                placeholder="Example: Residential Plumbing"
+                            >
+
+                        </div>
+
+
+                        <div class="ha-field">
+
+                            <label for="accountExperienceInput">
+                                Experience
+                            </label>
+
+                            <input
+                                id="accountExperienceInput"
+                                type="text"
+                                placeholder="Example: 3 years"
+                            >
+
+                        </div>
+
+
+                        <div class="ha-field ha-field-full">
+
+                            <label for="accountBioInput">
+                                Professional description
+                            </label>
+
+                            <textarea
+                                id="accountBioInput"
+                                placeholder="Tell clients briefly about your service and experience."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="ha-field ha-field-full">
+
+                            <label class="ha-schedule-toggle">
+                                <input
+                                    type="checkbox"
+                                    id="handymanAvailableInput"
+                                >
+                                <span>Accept new bookings</span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="ha-field ha-field-full">
+
+                            <label class="ha-schedule-toggle">
+                                <input
+                                    type="checkbox"
+                                    id="availabilityScheduleEnabled"
+                                >
+                                <span>Set weekly working hours</span>
+                            </label>
+
+                            <div
+                                class="ha-field ha-schedule-fields"
+                                id="availabilityScheduleFields"
+                                hidden
+                            >
+
+                                <span class="ha-field-label">
+                                    Working days
+                                </span>
+
+                                <div class="ha-schedule-days">
+                                    <label><input type="checkbox" name="availabilityDay" value="0"> Sun</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="1"> Mon</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="2"> Tue</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="3"> Wed</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="4"> Thu</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="5"> Fri</label>
+                                    <label><input type="checkbox" name="availabilityDay" value="6"> Sat</label>
+                                </div>
+
+                                <div class="ha-fields">
+
+                                    <div class="ha-field">
+                                        <label for="availabilityStart">Start time</label>
+                                        <input type="time" id="availabilityStart">
+                                    </div>
+
+                                    <div class="ha-field">
+                                        <label for="availabilityEnd">End time</label>
+                                        <input type="time" id="availabilityEnd">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="ha-field">
+                                <label for="availabilityDateOffInput">Unavailable dates</label>
+                                <div class="ha-date-off-row">
+                                    <input type="date" id="availabilityDateOffInput">
+                                    <button type="button" class="ha-button ha-button-secondary" id="addUnavailableDateButton">Add date off</button>
+                                </div>
+                                <div class="ha-unavailable-dates" id="unavailableDatesList"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ha-save-row">
+
+                        <button
+                            type="button"
+                            class="ha-button ha-button-primary ha-save"
+                            id="saveProfileButton"
+                        >
+                            Save changes
+                        </button>
+                                                <div class="ha-field ha-field-full">
+
+                                                    <label for="accountSpecialtiesInput">
+                                                        Additional specialties
+                                                    </label>
+
+                                                    <input
+                                                        id="accountSpecialtiesInput"
+                                                        type="text"
+                                                        placeholder="Example: Carpentry, furniture assembly, cabinet repair"
+                                                    >
+
+                                                </div>
+
+
+                    </div>
+
+
+                    <div
+                        id="accountMessage"
+                        class="ha-message"
+                    ></div>
+
+                </div>
+
+
+                <!-- BOOKINGS -->
+
+                <div
+                    class="ha-card ha-section"
+                    id="bookingsSection"
+                >
+
+                    <div class="ha-section-header">
+
+                        <h2>
+                            Client bookings
+                        </h2>
+
+                        <span id="bookingCountText">
+                            0 bookings
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="ha-bookings"
+                        id="bookingList"
+                    >
+                        <div class="ha-loading">
+                            Loading bookings...
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script
+        type="module"
+        src="./handyman-account.js"
+    ></script>
+
+</body>
+
+</html>

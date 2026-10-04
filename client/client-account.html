@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Account | Handy</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =====================================================
+           HANDY CLIENT ACCOUNT
+           Matches Login / Sign Up visual style
+           ===================================================== */
+
+        :root {
+            --green-950: #10251d;
+            --green-900: #17382b;
+            --green-850: #1c4434;
+            --green-800: #22503d;
+            --green-700: #2e624c;
+            --green-500: #6f8d7d;
+            --green-300: #aabdb1;
+
+            --cream: #f4f1e9;
+            --cream-light: #faf9f5;
+            --cream-dark: #e9e5da;
+
+            --text: #17231e;
+            --text-soft: #66716b;
+            --text-light: #9aa39d;
+
+            --white: #ffffff;
+
+            --border: rgba(23, 56, 43, 0.13);
+
+            --danger: #a74646;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background:
+                var(--cream-light);
+
+            color: var(--text);
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           PAGE
+           ===================================================== */
+
+        .account-page {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .account-header {
+            width: 100%;
+
+            padding: 26px 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background:
+                var(--cream-light);
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .account-logo-link {
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+        }
+
+        .account-logo {
+            display: block;
+
+            width: 175px;
+            height: auto;
+        }
+
+        .back-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            min-height: 42px;
+
+            padding: 0 15px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 7px;
+
+            background:
+                var(--white);
+
+            color:
+                var(--green-900);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .back-dashboard:hover {
+            background:
+                var(--cream);
+
+            border-color:
+                rgba(23, 56, 43, 0.22);
+
+            transform:
+                translateY(-1px);
+        }
+
+        .back-arrow {
+            font-size: 17px;
+            line-height: 1;
+        }
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        .account-main {
+            width: 100%;
+
+            flex: 1;
+
+            display: flex;
+            justify-content: center;
+
+            padding:
+                55px 20px 80px;
+        }
+
+        .account-wrapper {
+            width: 100%;
+            max-width: 760px;
+        }
+
+        /* =====================================================
+           PAGE INTRO
+           ===================================================== */
+
+        .account-intro {
+            margin-bottom: 25px;
+
+            text-align: center;
+        }
+
+        .account-intro-label {
+            margin: 0 0 8px;
+
+            color:
+                var(--green-700);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.14em;
+
+            text-transform: uppercase;
+        }
+
+        .account-intro h1 {
+            margin: 0;
+
+            color:
+                var(--green-950);
+
+            font-size:
+                clamp(30px, 5vw, 40px);
+
+            line-height: 1.1;
+
+            letter-spacing: -0.04em;
+        }
+
+        .account-intro p {
+            max-width: 520px;
+
+            margin:
+                10px auto 0;
+
+            color:
+                var(--text-soft);
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           ACCOUNT CARD
+           ===================================================== */
+
+        .account-card {
+            width: 100%;
+
+            background:
+                var(--white);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 18px 50px
+                rgba(16, 37, 29, 0.07);
+
+            overflow: hidden;
+        }
+
+        /* =====================================================
+           PROFILE HEADER
+           ===================================================== */
+
+        .account-profile {
+            padding: 28px 30px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 17px;
+
+            background:
+                var(--green-900);
+
+            color:
+                var(--white);
+        }
+
+        .account-avatar {
+            width: 58px;
+            height: 58px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            color:
+                var(--white);
+
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .account-profile-info {
+            min-width: 0;
+        }
+
+        .account-profile-info h2 {
+            margin: 0;
+
+            font-size: 18px;
+            font-weight: 650;
+
+            line-height: 1.3;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .account-profile-info p {
+            margin: 4px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.68);
+
+            font-size: 13px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* =====================================================
+           NAVIGATION TABS
+           ===================================================== */
+
+        .account-tabs {
+            display: flex;
+
+            padding:
+                0 30px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            background:
+                var(--white);
+        }
+
+        .account-tab {
+            position: relative;
+
+            min-height: 55px;
+
+            padding:
+                0 15px;
+
+            border: 0;
+
+            background:
+                transparent;
+
+            color:
+                var(--text-soft);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition:
+                color 0.2s ease;
+        }
+
+        .account-tab:first-child {
+            padding-left: 0;
+        }
+
+        .account-tab:hover {
+            color:
+                var(--green-900);
+        }
+
+        .account-tab.active {
+            color:
+                var(--green-900);
+        }
+
+        .account-tab.active::after {
+            content: "";
+
+            position: absolute;
+
+            left: 15px;
+            right: 15px;
+            bottom: -1px;
+
+            height: 2px;
+
+            background:
+                var(--green-900);
+        }
+
+        .account-tab:first-child.active::after {
+            left: 0;
+        }
+
+        /* =====================================================
+           SECTIONS
+           ===================================================== */
+
+        .account-section {
+            display: none;
+
+            padding:
+                30px;
+        }
+
+        .account-section.active {
+            display: block;
+
+            animation:
+                accountFade
+                0.22s ease;
+        }
+
+        @keyframes accountFade {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            margin-bottom: 23px;
+        }
+
+        .section-title h3 {
+            margin: 0;
+
+            color:
+                var(--green-950);
+
+            font-size: 18px;
+            font-weight: 650;
+        }
+
+        .section-title p {
+            margin: 6px 0 0;
+
+            color:
+                var(--text-soft);
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+        /* =====================================================
+           FORM
+           ===================================================== */
+
+        .account-form {
+            display: grid;
+
+            gap: 19px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 17px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column:
+                1 / -1;
+        }
+
+        .form-group label {
+            color:
+                var(--text);
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .account-input {
+            width: 100%;
+
+            min-height: 46px;
+
+            padding:
+                0 13px;
+
+            border:
+                1px solid
+                rgba(23, 56, 43, 0.15);
+
+            border-radius: 6px;
+
+            background:
+                var(--cream-light);
+
+            color:
+                var(--text);
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .account-textarea {
+            width: 100%;
+
+            min-height: 92px;
+
+            padding:
+                12px 13px;
+
+            resize: vertical;
+
+            border:
+                1px solid
+                rgba(23, 56, 43, 0.15);
+
+            border-radius: 6px;
+
+            background:
+                var(--cream-light);
+
+            color:
+                var(--text);
+
+            outline: none;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .account-input:focus,
+        .account-textarea:focus {
+            background:
+                var(--white);
+
+            border-color:
+                var(--green-700);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(46, 98, 76, 0.08);
+        }
+
+        .account-input:disabled {
+            color:
+                var(--text-soft);
+
+            background:
+                var(--cream);
+
+            cursor:
+                not-allowed;
+        }
+
+        .field-help {
+            margin: 0;
+
+            color:
+                var(--text-light);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           FORM FOOTER
+           ===================================================== */
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding-top: 5px;
+        }
+
+        .form-message {
+            min-height: 18px;
+
+            color:
+                var(--text-soft);
+
+            font-size: 12px;
+        }
+
+        .form-message.success {
+            color:
+                #367154;
+        }
+
+        .form-message.error {
+            color:
+                var(--danger);
+        }
+
+        .form-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-left: auto;
+        }
+
+        /* =====================================================
+           BUTTONS
+           ===================================================== */
+
+        .account-button {
+            min-height: 43px;
+
+            padding:
+                0 17px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+            font-weight: 650;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .account-button:hover {
+            transform:
+                translateY(-1px);
+        }
+
+        .account-button.secondary {
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--white);
+
+            color:
+                var(--text);
+        }
+
+        .account-button.secondary:hover {
+            background:
+                var(--cream-light);
+        }
+
+        .account-button.primary {
+            border:
+                1px solid var(--green-900);
+
+            background:
+                var(--green-900);
+
+            color:
+                var(--white);
+        }
+
+        .account-button.primary:hover {
+            background:
+                var(--green-850);
+        }
+
+        /* =====================================================
+           ACCOUNT DETAILS
+           ===================================================== */
+
+        .details-list {
+            display: grid;
+
+            border-top:
+                1px solid var(--border);
+        }
+
+        .detail-row {
+            min-height: 64px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding:
+                12px 0;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .detail-label {
+            color:
+                var(--text-soft);
+
+            font-size: 12px;
+        }
+
+        .detail-value {
+            color:
+                var(--green-950);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-align: right;
+
+            word-break: break-word;
+        }
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        .logout-section {
+            margin-top: 28px;
+
+            padding-top: 25px;
+
+            border-top:
+                1px solid var(--border);
+        }
+
+        .logout-section h4 {
+            margin: 0 0 5px;
+
+            color:
+                var(--green-950);
+
+            font-size: 14px;
+        }
+
+        .logout-section p {
+            margin: 0 0 15px;
+
+            color:
+                var(--text-soft);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .logout-button {
+            min-height: 42px;
+
+            padding:
+                0 16px;
+
+            border:
+                1px solid
+                rgba(167, 70, 70, 0.22);
+
+            border-radius: 6px;
+
+            background:
+                transparent;
+
+            color:
+                var(--danger);
+
+            font-size: 12px;
+            font-weight: 650;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background:
+                rgba(167, 70, 70, 0.06);
+
+            border-color:
+                rgba(167, 70, 70, 0.35);
+        }
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .account-header {
+                padding:
+                    20px;
+            }
+
+            .account-logo {
+                width:
+                    145px;
+            }
+
+            .back-dashboard {
+                min-height:
+                    38px;
+
+                padding:
+                    0 11px;
+
+                font-size:
+                    0;
+            }
+
+            .back-arrow {
+                font-size:
+                    18px;
+            }
+
+            .account-main {
+                padding:
+                    35px 15px 55px;
+            }
+
+            .account-intro {
+                margin-bottom:
+                    20px;
+            }
+
+            .account-intro h1 {
+                font-size:
+                    29px;
+            }
+
+            .account-intro p {
+                font-size:
+                    13px;
+            }
+
+            .account-profile {
+                padding:
+                    23px 20px;
+            }
+
+            .account-tabs {
+                padding:
+                    0 20px;
+
+                overflow-x:
+                    auto;
+            }
+
+            .account-tab {
+                white-space:
+                    nowrap;
+            }
+
+            .account-section {
+                padding:
+                    24px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .form-group.full {
+                grid-column:
+                    auto;
+            }
+
+            .form-footer {
+                align-items:
+                    stretch;
+
+                flex-direction:
+                    column;
+            }
+
+            .form-actions {
+                width:
+                    100%;
+
+                margin-left:
+                    0;
+            }
+
+            .form-actions .account-button {
+                flex:
+                    1;
+            }
+
+            .detail-row {
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap:
+                    5px;
+            }
+
+            .detail-value {
+                text-align:
+                    left;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .account-header {
+                padding:
+                    18px 15px;
+            }
+
+            .account-logo {
+                width:
+                    130px;
+            }
+
+            .account-main {
+                padding-left:
+                    12px;
+
+                padding-right:
+                    12px;
+            }
+
+            .account-profile {
+                padding:
+                    20px 17px;
+            }
+
+            .account-section {
+                padding:
+                    22px 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="account-page">
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <header class="account-header">
+
+            <a
+                href="client-dashboard.html"
+                class="account-logo-link"
+            >
+                <img
+                    src="../assets/handy-logo.png"
+                    class="account-logo"
+                    alt="Handy"
+                >
+            </a>
+
+            <button
+                type="button"
+                class="back-dashboard"
+                id="backToDashboard"
+            >
+                <span class="back-arrow">←</span>
+                <span>Dashboard</span>
+            </button>
+
+        </header>
+
+
+        <!-- =================================================
+             MAIN
+             ================================================= -->
+
+        <main class="account-main">
+
+            <div class="account-wrapper">
+
+                <!-- INTRO -->
+
+                <div class="account-intro">
+
+                    <p class="account-intro-label">
+                        My Account
+                    </p>
+
+                    <h1>
+                        Account Settings
+                    </h1>
+
+                    <p>
+                        Manage your profile, security,
+                        and account information.
+                    </p>
+
+                </div>
+
+
+                <!-- ACCOUNT CARD -->
+
+                <div class="account-card">
+
+                    <!-- PROFILE HEADER -->
+
+                    <div class="account-profile">
+
+                        <div
+                            class="account-avatar"
+                            id="accountAvatar"
+                        >
+                            C
+                        </div>
+
+                        <div class="account-profile-info">
+
+                            <h2 id="accountProfileName">
+                                Client
+                            </h2>
+
+                            <p id="accountProfileEmail">
+                                client@email.com
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TABS -->
+
+                    <div class="account-tabs">
+
+                        <button
+                            type="button"
+                            class="account-tab active"
+                            data-account-content-tab="profile"
+                        >
+                            Profile
+                        </button>
+
+                        <button
+                            type="button"
+                            class="account-tab"
+                            data-account-content-tab="security"
+                        >
+                            Security
+                        </button>
+
+                        <button
+                            type="button"
+                            class="account-tab"
+                            data-account-content-tab="account"
+                        >
+                            Account
+                        </button>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PROFILE SECTION
+                         ================================================= -->
+
+                    <section
+                        class="account-section active"
+                        data-account-section="profile"
+                    >
+
+                        <div class="section-title">
+
+                            <h3>
+                                Personal Information
+                            </h3>
+
+                            <p>
+                                Update your information used
+                                for bookings and communication.
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            class="account-form"
+                            id="profileForm"
+                        >
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label
+                                        for="accountFullName"
+                                    >
+                                        Full Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="accountFullName"
+                                        class="account-input"
+                                        autocomplete="name"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label
+                                        for="accountMobile"
+                                    >
+                                        Mobile Number
+                                    </label>
+
+                                    <input
+                                        type="tel"
+                                        id="accountMobile"
+                                        class="account-input"
+                                        autocomplete="tel"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group full">
+
+                                    <label
+                                        for="accountEmail"
+                                    >
+                                        Email Address
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        id="accountEmail"
+                                        class="account-input"
+                                        autocomplete="email"
+                                        disabled
+                                    >
+
+                                    <p class="field-help">
+                                        Your email address is used
+                                        as your account identifier.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="form-group full">
+
+                                    <label
+                                        for="accountAddress"
+                                    >
+                                        Default Service Location
+                                    </label>
+
+                                    <textarea
+                                        id="accountAddress"
+                                        class="account-textarea"
+                                        placeholder="Enter your usual service location"
+                                    ></textarea>
+
+                                    <p class="field-help">
+                                        You can still change the
+                                        location when creating a booking.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-footer">
+
+                                <div
+                                    class="form-message"
+                                    id="profileMessage"
+                                ></div>
+
+                                <div class="form-actions">
+
+                                    <button
+                                        type="button"
+                                        class="account-button secondary"
+                                        id="resetProfileButton"
+                                    >
+                                        Reset
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        class="account-button primary"
+                                    >
+                                        Save Changes
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         SECURITY SECTION
+                         ================================================= -->
+
+                    <section
+                        class="account-section"
+                        data-account-section="security"
+                    >
+
+                        <div class="section-title">
+
+                            <h3>
+                                Password & Security
+                            </h3>
+
+                            <p>
+                                Change your password to protect
+                                your Handy account.
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            class="account-form"
+                            id="passwordForm"
+                        >
+
+                            <div class="form-group">
+
+                                <label
+                                    for="currentPassword"
+                                >
+                                    Current Password
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="currentPassword"
+                                    class="account-input"
+                                    autocomplete="current-password"
+                                    placeholder="Enter your current password"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label
+                                        for="newPassword"
+                                    >
+                                        New Password
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="newPassword"
+                                        class="account-input"
+                                        autocomplete="new-password"
+                                        placeholder="Enter new password"
+                                        minlength="6"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label
+                                        for="confirmNewPassword"
+                                    >
+                                        Confirm Password
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="confirmNewPassword"
+                                        class="account-input"
+                                        autocomplete="new-password"
+                                        placeholder="Confirm new password"
+                                        minlength="6"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-footer">
+
+                                <div
+                                    class="form-message"
+                                    id="passwordMessage"
+                                ></div>
+
+                                <div class="form-actions">
+
+                                    <button
+                                        type="submit"
+                                        class="account-button primary"
+                                    >
+                                        Update Password
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         ACCOUNT SECTION
+                         ================================================= -->
+
+                    <section
+                        class="account-section"
+                        data-account-section="account"
+                    >
+
+                        <div class="section-title">
+
+                            <h3>
+                                Account Information
+                            </h3>
+
+                            <p>
+                                Basic information about your
+                                Handy account.
+                            </p>
+
+                        </div>
+
+
+                        <div class="details-list">
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Account Type
+                                </span>
+
+                                <span class="detail-value">
+                                    Client
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Email
+                                </span>
+
+                                <span
+                                    class="detail-value"
+                                    id="accountSettingsEmail"
+                                >
+                                    client@email.com
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Account Status
+                                </span>
+
+                                <span class="detail-value">
+                                    Active
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="logout-section">
+
+                            <h4>
+                                Sign out
+                            </h4>
+
+                            <p>
+                                Sign out of your Handy account
+                                on this device.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="logout-button"
+                                id="accountLogoutButton"
+                            >
+                                Log Out
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script type="module" src="../auth.js"></script>
+    <script src="client-account.js"></script>
+
+</body>
+</html>
